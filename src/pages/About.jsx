@@ -1,0 +1,402 @@
+import { useEffect, useRef, useState } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import './About.css'
+gsap.registerPlugin(ScrollTrigger)
+
+/* ── SVG value icons ── */
+const HandshakeIcon = () => (
+  <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+    <path d="M13 8l4-3 4 3 5 2 3 5-2 4-5 3-5-1-5 1-5-3-2-4 3-5 5-2z" fill="#111111" fillOpacity=".12" stroke="#111111" strokeWidth="1.5" strokeLinejoin="round"/>
+    <path d="M11 18c2 1.5 4 2 7 2s5-.5 7-2" stroke="#111111" strokeWidth="1.5" strokeLinecap="round"/>
+    <circle cx="14" cy="15" r="1.5" fill="#111111"/>
+    <circle cx="22" cy="15" r="1.5" fill="#111111"/>
+  </svg>
+)
+const ChatIcon = () => (
+  <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+    <rect x="5" y="6" width="22" height="16" rx="4" fill="#333333" fillOpacity=".1" stroke="#333333" strokeWidth="1.5"/>
+    <path d="M5 18l-3 5 6-2" fill="#333333" fillOpacity=".2" stroke="#333333" strokeWidth="1.5" strokeLinejoin="round"/>
+    <rect x="12" y="18" width="18" height="13" rx="3" fill="#555555" fillOpacity=".15" stroke="#555555" strokeWidth="1.5"/>
+    <circle cx="17" cy="24" r="1.2" fill="#555555"/>
+    <circle cx="21" cy="24" r="1.2" fill="#555555"/>
+    <circle cx="25" cy="24" r="1.2" fill="#555555"/>
+  </svg>
+)
+const ShieldIcon = () => (
+  <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+    <path d="M18 4L30 9v10c0 7-5.5 12-12 14C9.5 31 4 26 4 19V9L18 4z" fill="#333333" fillOpacity=".1" stroke="#333333" strokeWidth="1.5" strokeLinejoin="round"/>
+    <path d="M12 18l4 4 8-8" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+)
+const StarIcon = () => (
+  <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+    <polygon points="18,4 21.5,13.5 32,13.5 23.5,19.5 26.5,29 18,23 9.5,29 12.5,19.5 4,13.5 14.5,13.5" fill="#555555" fillOpacity=".15" stroke="#555555" strokeWidth="1.5" strokeLinejoin="round"/>
+  </svg>
+)
+
+const VALUES = [
+  { Icon: HandshakeIcon, title: 'Honesty & Integrity', desc: 'Complete transparency in every relationship — with clients, employees, and communities.', accent: '#111111' },
+  { Icon: ChatIcon,      title: 'Open Communication', desc: 'Open and transparent dialogue is the foundation of every project we undertake.',         accent: '#333333' },
+  { Icon: ShieldIcon,    title: 'Safety of People',   desc: 'Zero-harm philosophy. Safety and development of every individual is non-negotiable.',    accent: '#333333' },
+  { Icon: StarIcon,      title: 'Professionalism',    desc: 'World-class quality and precision craftsmanship in every aspect of every build.',         accent: '#555555' },
+]
+
+const VISION_ITEMS = [
+  'To operate as a multi-disciplinary company in the construction economies of India.',
+  'To focus on continuous and sustainable top and bottom line growth.',
+  'To create a desirable place of work — a natural home for creativity and enthusiasm, within a safe working environment.',
+]
+
+const PHILOSOPHY = [
+  'An energetic enthusiasm for what we do',
+  'A sensitivity to the needs of our customers',
+  'A willingness to accept total responsibility',
+  'A craftsman-like pride in knowing what we construct will last for generations',
+]
+
+/* ── Bento Wall mission component ── */
+function MissionBento() {
+  const [smashed, setSmashed] = useState(false)
+  const wallRef = useRef(null)
+
+  const handleSmash = () => {
+    if (smashed) return
+    // explode every brick outward with GSAP
+    const bricks = wallRef.current.querySelectorAll('.brick')
+    bricks.forEach((b) => {
+      const dx = (Math.random() - 0.5) * 900
+      const dy = (Math.random() - 0.5) * 600
+      const rot = (Math.random() - 0.5) * 720
+      gsap.to(b, {
+        x: dx, y: dy, rotation: rot, opacity: 0,
+        duration: 0.8 + Math.random() * 0.4,
+        ease: 'power3.in',
+      })
+    })
+    gsap.delayedCall(0.6, () => setSmashed(true))
+  }
+
+  const BRICKS = [
+    { label: 'Mission',    bg: '#111111',  color: '#fff',     size: 'large'  },
+    { label: 'Community',  bg: '#333333',  color: '#fff',     size: 'small'  },
+    { label: 'Design',     bg: '#555555',  color: '#fff',     size: 'small'  },
+    { label: 'Build',      bg: '#222222',  color: '#fff',     size: 'medium' },
+    { label: 'India',      bg: '#111111',  color: '#fff',     size: 'medium' },
+    { label: 'Expertise',  bg: '#EEEEEE',  color: '#111111',  size: 'small'  },
+    { label: 'Growth',     bg: '#333333',  color: '#fff',     size: 'small'  },
+    { label: 'Construct',  bg: '#555555',  color: '#fff',     size: 'large'  },
+    { label: 'Improve',    bg: '#EEEEEE',  color: '#111111',  size: 'medium' },
+    { label: 'Rehabilitate', bg: '#222222', color: '#fff',    size: 'medium' },
+    { label: 'Plan',       bg: '#111111',  color: '#fff',     size: 'small'  },
+    { label: 'Develop',    bg: '#EEEEEE',  color: '#111111',  size: 'small'  },
+  ]
+
+  return (
+    <div className="mission-bento" onClick={handleSmash}>
+      {!smashed ? (
+        <>
+          <div className="mission-bento__wall" ref={wallRef}>
+            {BRICKS.map((b, i) => (
+              <div key={i} className={`brick brick--${b.size}`} style={{ background: b.bg, color: b.color }}>
+                {b.label}
+              </div>
+            ))}
+          </div>
+          <div className="mission-bento__hint">
+            <span>TAP</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            <span>to reveal our mission</span>
+          </div>
+        </>
+      ) : (
+        <div className="mission-bento__quote">
+          <div className="mission-bento__quote-line" />
+          <blockquote>
+            "Our mission is to address the needs of our clients through the employment
+            of our expertise in the development planning and design, improvement,
+            construction and rehabilitation of the living environment of communities
+            throughout India."
+          </blockquote>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default function About() {
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // ── Hero: words animate in with overflow clip ──
+      gsap.fromTo('.ah-word',
+        { yPercent: 110, skewY: 4 },
+        { yPercent: 0, skewY: 0, duration: 1.1, stagger: 0.09, ease: 'power4.out', delay: 0.3 }
+      )
+      gsap.fromTo('.about-hero__sub',
+        { opacity: 0, y: 22 },
+        { opacity: 1, y: 0, duration: 0.9, delay: 1.1, ease: 'power3.out' }
+      )
+
+      // ── Stat boxes slam in ──
+      gsap.fromTo('.stat-box',
+        { opacity: 0, y: 60, scale: 0.9 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.75, stagger: 0.15, ease: 'back.out(1.5)',
+          scrollTrigger: { trigger: '.about-company', start: 'top 80%' } }
+      )
+
+      // ── Counter ──
+      document.querySelectorAll('.counter').forEach(el => {
+        const val = parseFloat(el.dataset.val)
+        const suffix = el.dataset.suffix || ''
+        ScrollTrigger.create({
+          trigger: el, start: 'top 85%', once: true,
+          onEnter: () => gsap.fromTo({ v: 0 }, { v: val, duration: 2, ease: 'power2.out',
+            onUpdate: function () { el.textContent = Math.round(this.targets()[0].v) + suffix }
+          })
+        })
+      })
+
+      // ── Story text ──
+      gsap.utils.toArray('.reveal').forEach(el => {
+        gsap.fromTo(el, { opacity: 0, y: 40 }, {
+          opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 88%' }
+        })
+      })
+
+      // ── Philosophy items ──
+      gsap.fromTo('.philosophy-item',
+        { opacity: 0, x: -50 },
+        { opacity: 1, x: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out',
+          scrollTrigger: { trigger: '.philosophy-list', start: 'top 83%' } }
+      )
+
+      // ── Vision items ──
+      gsap.fromTo('.vision-item',
+        { opacity: 0, x: 40 },
+        { opacity: 1, x: 0, duration: 0.75, stagger: 0.12, ease: 'power3.out',
+          scrollTrigger: { trigger: '.vision-list', start: 'top 83%' } }
+      )
+
+      // ── Value cards: pop onto screen ──
+      gsap.fromTo('.value-card',
+        { opacity: 0, scale: 0.82, y: 40 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.65, stagger: 0.1, ease: 'back.out(1.7)',
+          scrollTrigger: { trigger: '.values-grid', start: 'top 83%' } }
+      )
+
+      // ── Approach ──
+      gsap.fromTo('.approach-block',
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.65, stagger: 0.08, ease: 'power3.out',
+          scrollTrigger: { trigger: '.approach-grid', start: 'top 85%' } }
+      )
+
+    }, ref)
+    return () => ctx.revert()
+  }, [])
+
+  return (
+    <div className="about" ref={ref}>
+
+      {/* ── 1. HERO ── */}
+      <section className="about-hero">
+        <div className="about-hero__bg" />
+        <div className="container about-hero__inner">
+          <div className="eyebrow">
+            <span className="eyebrow__line" /><span className="eyebrow__text">About Us</span>
+          </div>
+          <h1 className="about-hero__title">
+            {/* Each line clipped so words slide up cleanly */}
+            <span className="ah-line"><span className="ah-word">We don't just</span></span>
+            <span className="ah-line"><span className="ah-word">build structures.</span></span>
+            <span className="ah-line">
+              <span className="ah-word">We build&nbsp;</span>
+              <span className="ah-word ah-italic">legacies.</span>
+            </span>
+          </h1>
+          <p className="about-hero__sub">
+            20 years. Mumbai to Gujarat, Karnataka to Vadodara.
+            <br />One group. One standard. <strong>Delivering Expectations.</strong>
+          </p>
+        </div>
+      </section>
+
+      {/* ── 2. COMPANY STATS + STORY ── */}
+      <section className="about-company">
+        <div className="container about-company__grid">
+
+          {/* Stat boxes — dominant left column */}
+          <div className="about-company__left">
+            {[
+              { val: '20', suffix: '+', label: 'Years of Excellence', accent: '#111111' },
+              { val: '80', suffix: '+', label: 'Projects Delivered',  accent: '#333333' },
+              { val: '6',  suffix: '',  label: 'States Served',       accent: '#555555' },
+            ].map(({ val, suffix, label, accent }) => (
+              <div className="stat-box" key={label} style={{ '--accent': accent }}>
+                <span className="counter stat-box__num" data-val={val} data-suffix={suffix}>
+                  {val}{suffix}
+                </span>
+                <span className="stat-box__label">{label}</span>
+                <div className="stat-box__bar" />
+              </div>
+            ))}
+          </div>
+
+          {/* Story text — secondary right */}
+          <div className="about-company__right">
+            <div className="eyebrow reveal">
+              <span className="eyebrow__line" /><span className="eyebrow__text">Our Story</span>
+            </div>
+            <h2 className="section-title reveal">
+              A multi-disciplinary firm <em>built for India</em>
+            </h2>
+            <p className="reveal">
+              ROSA Infra is a multi-disciplinary firm founded specifically to address the diverse
+              needs of our clients throughout India. Specialised associates have joined forces
+              under one umbrella — The ROSA Group.
+            </p>
+            <p className="reveal">
+              Each specialised company consists of highly qualified and experienced individuals
+              with a unique combination of backgrounds in infrastructure development and
+              practical implementation experience in their fields of expertise.
+            </p>
+            <p className="reveal">
+              This unique combination enables us to implement the best available technology
+              in a practical sense in a developing environment.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 3. MISSION — bento wall smash ── */}
+      <section className="about-mission">
+        <div className="container">
+          <div className="eyebrow about-mission__eyebrow">
+            <span className="eyebrow__line" /><span className="eyebrow__text">Our Mission</span>
+          </div>
+          <MissionBento />
+        </div>
+      </section>
+
+      {/* ── 4. PHILOSOPHY ── */}
+      <section className="about-philosophy">
+        <div className="container">
+          <div className="philosophy-header">
+            <div className="eyebrow reveal">
+              <span className="eyebrow__line" /><span className="eyebrow__text">Our Philosophy</span>
+            </div>
+            <h2 className="section-title reveal">
+              Over 20 years of <em>guiding values</em>
+            </h2>
+            <p className="philosophy-lead reveal">
+              Over the past 20 years, ROSA Infra has emerged as one of the most respected general
+              contracting firms in Mumbai — repeatedly proving our ability to take large, complex
+              projects and complete them on time, on budget, and at the highest levels of quality.
+            </p>
+          </div>
+          <div className="philosophy-list">
+            {PHILOSOPHY.map((item, i) => (
+              <div className="philosophy-item" key={i}>
+                <span className="philosophy-item__num" style={{
+                  color: ['#111111','#333333','#555555','#111111'][i]
+                }}>0{i + 1}</span>
+                <p>{item}</p>
+                <svg className="philosophy-item__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 5. VISION ── */}
+      <section className="about-vision">
+        <div className="container about-vision__grid">
+          <div className="about-vision__left">
+            <div className="eyebrow reveal">
+              <span className="eyebrow__line" /><span className="eyebrow__text">Vision</span>
+            </div>
+            <h2 className="section-title reveal">
+              Contractor of <em>choice</em><br />across India
+            </h2>
+            <p className="reveal">
+              ROSA Infra aims to be the contractor of choice in the construction industry
+              throughout India — through a solid commitment to safe, timely, high quality,
+              innovative and cost-effective construction.
+            </p>
+          </div>
+          <ul className="vision-list">
+            {VISION_ITEMS.map((item, i) => (
+              <li className="vision-item" key={i}>
+                <span className="vision-item__dot" style={{
+                  background: ['#111111','#333333','#555555'][i]
+                }} />
+                <p>{item}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ── 6. VALUES — SVG icons, pop animation ── */}
+      <section className="about-values">
+        <div className="container">
+          <div className="about-values__header">
+            <div className="eyebrow reveal">
+              <span className="eyebrow__line" /><span className="eyebrow__text">Values</span>
+            </div>
+            <h2 className="section-title reveal">The principles that <em>guide us</em></h2>
+          </div>
+          <div className="values-grid">
+            {VALUES.map(({ Icon, title, desc, accent }) => (
+              <div className="value-card" key={title} style={{ '--card-accent': accent }}>
+                <div className="value-card__icon-wrap">
+                  <Icon />
+                </div>
+                <h3>{title}</h3>
+                <p>{desc}</p>
+                <div className="value-card__bottom-line" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 7. APPROACH ── */}
+      <section className="about-approach">
+        <div className="container">
+          <div className="eyebrow reveal">
+            <span className="eyebrow__line" /><span className="eyebrow__text">Approach to Business</span>
+          </div>
+          <h2 className="section-title reveal" style={{ marginBottom: '16px' }}>
+            From <em>needs assessment</em> to hand-over
+          </h2>
+          <p className="approach-lead reveal">
+            ROSA Infra provides a full range of services — from needs assessment and project
+            identification through design, procurement, construction, project management,
+            maintenance, and operation.
+          </p>
+          <div className="approach-grid">
+            {[
+              ['01', 'Needs Assessment',   'Deep-dive into what the client requires, site constraints, and community impact.',       '#111111'],
+              ['02', 'Planning & Design',  'Concept design through detailed engineering — our in-house team handles everything.',     '#333333'],
+              ['03', 'Procurement',        'Strategic procurement that balances quality, cost, and schedule.',                        '#555555'],
+              ['04', 'Construction',       'Precision on-site execution with certified safety and quality monitoring.',               '#111111'],
+              ['05', 'Project Management', 'End-to-end site management, reporting, and stakeholder communication.',                   '#333333'],
+              ['06', 'Handover & Support', 'Lock-and-key handover with post-completion support and capacity building.',               '#555555'],
+            ].map(([step, title, desc, col]) => (
+              <div className="approach-block" key={step}>
+                <span className="approach-block__step" style={{ color: col }}>{step}</span>
+                <h3>{title}</h3>
+                <p>{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+    </div>
+  )
+}

@@ -1,0 +1,318 @@
+/* ══════════════════════════════════════════
+   1. HERO
+══════════════════════════════════════════ */
+.about-hero {
+  position: relative;
+  min-height: 85vh;
+  background: var(--off-white);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 140px 0 80px;
+}
+.about-hero__bg {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,0,0,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+.about-hero__inner { position: relative; z-index: 2; }
+
+.about-hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 8vw, 9rem);
+  font-weight: 300;
+  line-height: 1.0;
+  letter-spacing: -0.025em;
+  color: var(--charcoal);
+  margin: 1.4rem 0 0;
+}
+.ah-line { display: block; overflow: hidden; padding-bottom: 0.06em; }
+.ah-word { display: inline-block; }
+.ah-italic { font-style: italic; color: var(--charcoal); }
+
+.about-hero__sub {
+  font-size: 18px;
+  line-height: 1.85;
+  color: var(--body);
+  max-width: 520px;
+  margin-top: 2.2rem;
+  opacity: 0;
+}
+.about-hero__sub strong { color: var(--charcoal); font-weight: 700; }
+
+/* ══════════════════════════════════════════
+   2. COMPANY STATS
+══════════════════════════════════════════ */
+.about-company { padding: 120px 0; background: var(--white); }
+.about-company__grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+.about-company__left { display: flex; flex-direction: column; gap: 3px; }
+
+.stat-box {
+  position: relative;
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  padding: 44px 48px;
+  overflow: hidden;
+  transition: transform 0.35s var(--ease), box-shadow 0.35s;
+  cursor: default;
+}
+.stat-box:hover {
+  transform: translateX(8px);
+  box-shadow: -3px 0 0 var(--charcoal), 0 8px 32px rgba(0,0,0,.06);
+}
+.stat-box__num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 9vw, 9rem);
+  font-weight: 600;
+  line-height: 0.9;
+  color: var(--charcoal);
+  letter-spacing: -0.03em;
+}
+.stat-box__label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 12px;
+}
+.stat-box__bar {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--charcoal);
+  opacity: 0.2;
+}
+
+.about-company__right p {
+  font-size: 16px;
+  line-height: 2;
+  color: var(--body);
+  margin-bottom: 1.4rem;
+}
+
+/* ══════════════════════════════════════════
+   3. MISSION — bento smash
+══════════════════════════════════════════ */
+.about-mission {
+  padding: 100px 0 80px;
+  background: var(--off-white);
+  border-top: 1px solid var(--border);
+}
+.about-mission__eyebrow { margin-bottom: 2rem; }
+
+.mission-bento {
+  cursor: pointer;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.5rem;
+  position: relative;
+  user-select: none;
+}
+.mission-bento__wall {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 2fr;
+  grid-template-rows: auto auto auto;
+  gap: 8px;
+}
+.brick {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 6px;
+  transition: transform 0.2s var(--ease);
+  will-change: transform;
+}
+.brick--small  { padding: 24px 16px; }
+.brick--medium { padding: 40px 20px; }
+.brick--large  { padding: 56px 24px; grid-column: span 2; }
+.mission-bento:hover .brick { transform: scale(1.02); }
+.mission-bento:hover .brick:nth-child(odd) { transform: scale(1.03) rotate(0.5deg); }
+
+.mission-bento__hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  animation: hintPulse 2s ease-in-out infinite;
+}
+@keyframes hintPulse { 0%,100%{opacity:.5} 50%{opacity:1} }
+
+.mission-bento__quote {
+  display: flex;
+  gap: 2.5rem;
+  padding: 20px 0;
+  animation: quoteReveal 0.9s var(--ease) forwards;
+}
+@keyframes quoteReveal {
+  from { opacity:0; transform: translateY(30px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+.mission-bento__quote-line {
+  width: 3px;
+  background: var(--charcoal);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.mission-bento__quote blockquote {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 3vw, 3rem);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--charcoal);
+  quotes: none;
+}
+
+/* ══════════════════════════════════════════
+   4. PHILOSOPHY
+══════════════════════════════════════════ */
+.about-philosophy { padding: 120px 0; background: var(--white); }
+.philosophy-header { max-width: 700px; margin-bottom: 70px; }
+.philosophy-lead { font-size: 17px; line-height: 1.95; color: var(--body); margin-top: 1.6rem; }
+.philosophy-list { border-top: 1px solid var(--border); }
+
+.philosophy-item {
+  display: flex;
+  align-items: center;
+  gap: 3.5rem;
+  padding: 34px 0;
+  border-bottom: 1px solid var(--border);
+  transition: padding-left 0.4s var(--ease), background 0.3s;
+  cursor: default;
+}
+.philosophy-item:hover { padding-left: 18px; background: var(--off-white); border-radius: 4px; }
+.philosophy-item__num {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+  flex-shrink: 0;
+  width: 60px;
+  opacity: 0.2;
+  color: var(--charcoal);
+}
+.philosophy-item p { font-size: 18px; font-weight: 500; line-height: 1.6; color: var(--charcoal); flex: 1; }
+.philosophy-item__arrow { color: var(--muted); opacity: 0; transition: opacity 0.3s, transform 0.3s var(--ease); flex-shrink: 0; }
+.philosophy-item:hover .philosophy-item__arrow { opacity: 1; transform: translateX(4px); }
+
+/* ══════════════════════════════════════════
+   5. VISION
+══════════════════════════════════════════ */
+.about-vision { padding: 120px 0; background: var(--off-white); }
+.about-vision__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7rem; align-items: start; }
+.about-vision__left p { font-size: 17px; line-height: 2; color: var(--body); margin-top: 1.6rem; }
+.vision-list { list-style: none; padding-top: 1rem; }
+.vision-item {
+  display: flex;
+  gap: 1.6rem;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+  transition: padding-left 0.35s var(--ease);
+}
+.vision-item:first-child { border-top: 1px solid var(--border); }
+.vision-item:hover { padding-left: 8px; }
+.vision-item__dot { width: 10px; height: 10px; border-radius: 50%; background: var(--charcoal); margin-top: 7px; flex-shrink: 0; opacity: 0.35; }
+.vision-item p { font-size: 16px; line-height: 1.85; color: var(--charcoal); }
+
+/* ══════════════════════════════════════════
+   6. VALUES
+══════════════════════════════════════════ */
+.about-values {
+  padding: 120px 0;
+  background: var(--light);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.about-values__header { margin-bottom: 60px; }
+.values-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.value-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 44px 32px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.35s var(--ease), box-shadow 0.35s;
+}
+.value-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 24px 56px rgba(0,0,0,.1); }
+.value-card__icon-wrap { margin-bottom: 1.6rem; display: inline-flex; padding: 14px; background: var(--off-white); border-radius: 12px; }
+.value-card h3 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; color: var(--charcoal); margin-bottom: 0.9rem; }
+.value-card p { font-size: 15px; line-height: 1.85; color: var(--body); }
+.value-card__bottom-line {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--charcoal);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease);
+}
+.value-card:hover .value-card__bottom-line { transform: scaleX(1); }
+
+/* ══════════════════════════════════════════
+   7. APPROACH
+══════════════════════════════════════════ */
+.about-approach { padding: 120px 0; background: var(--white); }
+.approach-lead { font-size: 16px; line-height: 1.9; color: var(--body); max-width: 640px; margin-bottom: 56px; }
+.approach-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.approach-block { background: var(--white); padding: 44px 36px; transition: background 0.3s; }
+.approach-block:hover { background: var(--off-white); }
+.approach-block__step { display: block; font-family: var(--font-display); font-size: 3.2rem; font-weight: 700; line-height: 1; opacity: 0.12; margin-bottom: 1rem; color: var(--charcoal); }
+.approach-block h3 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; color: var(--charcoal); margin-bottom: 0.8rem; }
+.approach-block p { font-size: 15px; line-height: 1.85; color: var(--body); }
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media (max-width: 1100px) {
+  .about-company__grid { grid-template-columns: 1fr 1fr; gap: 3rem; }
+  .about-vision__grid  { grid-template-columns: 1fr 1fr; gap: 4rem; }
+  .values-grid         { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .approach-grid       { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .about-hero__title   { font-size: clamp(3.2rem, 12vw, 6rem); }
+  .about-company__grid { grid-template-columns: 1fr; }
+  .stat-box__num       { font-size: clamp(4rem, 18vw, 7rem); }
+  .about-vision__grid  { grid-template-columns: 1fr; gap: 3rem; }
+  .mission-bento__wall { grid-template-columns: 1fr 1fr; }
+  .brick--large        { grid-column: span 1; }
+}
+@media (max-width: 640px) {
+  .values-grid   { grid-template-columns: 1fr; }
+  .approach-grid { grid-template-columns: 1fr; }
+  .philosophy-item { gap: 2rem; }
+  .philosophy-item p { font-size: 16px; }
+}
