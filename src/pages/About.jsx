@@ -7,39 +7,39 @@ gsap.registerPlugin(ScrollTrigger)
 /* ── SVG value icons ── */
 const HandshakeIcon = () => (
   <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-    <path d="M13 8l4-3 4 3 5 2 3 5-2 4-5 3-5-1-5 1-5-3-2-4 3-5 5-2z" fill="#111111" fillOpacity=".12" stroke="#111111" strokeWidth="1.5" strokeLinejoin="round"/>
-    <path d="M11 18c2 1.5 4 2 7 2s5-.5 7-2" stroke="#111111" strokeWidth="1.5" strokeLinecap="round"/>
-    <circle cx="14" cy="15" r="1.5" fill="#111111"/>
-    <circle cx="22" cy="15" r="1.5" fill="#111111"/>
+    <path d="M13 8l4-3 4 3 5 2 3 5-2 4-5 3-5-1-5 1-5-3-2-4 3-5 5-2z" fill="#1a4a7a" fillOpacity=".14" stroke="#1a4a7a" strokeWidth="1.5" strokeLinejoin="round" />
+    <path d="M11 18c2 1.5 4 2 7 2s5-.5 7-2" stroke="#1a4a7a" strokeWidth="1.5" strokeLinecap="round" />
+    <circle cx="14" cy="15" r="1.5" fill="#1a4a7a" />
+    <circle cx="22" cy="15" r="1.5" fill="#1a4a7a" />
   </svg>
 )
 const ChatIcon = () => (
   <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-    <rect x="5" y="6" width="22" height="16" rx="4" fill="#333333" fillOpacity=".1" stroke="#333333" strokeWidth="1.5"/>
-    <path d="M5 18l-3 5 6-2" fill="#333333" fillOpacity=".2" stroke="#333333" strokeWidth="1.5" strokeLinejoin="round"/>
-    <rect x="12" y="18" width="18" height="13" rx="3" fill="#555555" fillOpacity=".15" stroke="#555555" strokeWidth="1.5"/>
-    <circle cx="17" cy="24" r="1.2" fill="#555555"/>
-    <circle cx="21" cy="24" r="1.2" fill="#555555"/>
-    <circle cx="25" cy="24" r="1.2" fill="#555555"/>
+    <rect x="5" y="6" width="22" height="16" rx="4" fill="#2a5a9a" fillOpacity=".1" stroke="#2a5a9a" strokeWidth="1.5" />
+    <path d="M5 18l-3 5 6-2" fill="#2a5a9a" fillOpacity=".2" stroke="#2a5a9a" strokeWidth="1.5" strokeLinejoin="round" />
+    <rect x="12" y="18" width="18" height="13" rx="3" fill="#1a4a7a" fillOpacity=".15" stroke="#1a4a7a" strokeWidth="1.5" />
+    <circle cx="17" cy="24" r="1.2" fill="#1a4a7a" />
+    <circle cx="21" cy="24" r="1.2" fill="#1a4a7a" />
+    <circle cx="25" cy="24" r="1.2" fill="#1a4a7a" />
   </svg>
 )
 const ShieldIcon = () => (
   <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-    <path d="M18 4L30 9v10c0 7-5.5 12-12 14C9.5 31 4 26 4 19V9L18 4z" fill="#333333" fillOpacity=".1" stroke="#333333" strokeWidth="1.5" strokeLinejoin="round"/>
-    <path d="M12 18l4 4 8-8" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M18 4L30 9v10c0 7-5.5 12-12 14C9.5 31 4 26 4 19V9L18 4z" fill="#1a4a7a" fillOpacity=".1" stroke="#1a4a7a" strokeWidth="1.5" strokeLinejoin="round" />
+    <path d="M12 18l4 4 8-8" stroke="#1a4a7a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 )
 const StarIcon = () => (
   <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-    <polygon points="18,4 21.5,13.5 32,13.5 23.5,19.5 26.5,29 18,23 9.5,29 12.5,19.5 4,13.5 14.5,13.5" fill="#555555" fillOpacity=".15" stroke="#555555" strokeWidth="1.5" strokeLinejoin="round"/>
+    <polygon points="18,4 21.5,13.5 32,13.5 23.5,19.5 26.5,29 18,23 9.5,29 12.5,19.5 4,13.5 14.5,13.5" fill="#2a5a9a" fillOpacity=".15" stroke="#2a5a9a" strokeWidth="1.5" strokeLinejoin="round" />
   </svg>
 )
 
 const VALUES = [
-  { Icon: HandshakeIcon, title: 'Honesty & Integrity', desc: 'Complete transparency in every relationship — with clients, employees, and communities.', accent: '#111111' },
-  { Icon: ChatIcon,      title: 'Open Communication', desc: 'Open and transparent dialogue is the foundation of every project we undertake.',         accent: '#333333' },
-  { Icon: ShieldIcon,    title: 'Safety of People',   desc: 'Zero-harm philosophy. Safety and development of every individual is non-negotiable.',    accent: '#333333' },
-  { Icon: StarIcon,      title: 'Professionalism',    desc: 'World-class quality and precision craftsmanship in every aspect of every build.',         accent: '#555555' },
+  { Icon: HandshakeIcon, title: 'Honesty & Integrity', desc: 'Complete transparency in every relationship — with clients, employees, and communities.', accent: '#1a4a7a' },
+  { Icon: ChatIcon, title: 'Open Communication', desc: 'Open and transparent dialogue is the foundation of every project we undertake.', accent: '#2a5a9a' },
+  { Icon: ShieldIcon, title: 'Safety of People', desc: 'Zero-harm philosophy. Safety and development of every individual is non-negotiable.', accent: '#1a4a7a' },
+  { Icon: StarIcon, title: 'Professionalism', desc: 'World-class quality and precision craftsmanship in every aspect of every build.', accent: '#2a5a9a' },
 ]
 
 const VISION_ITEMS = [
@@ -78,18 +78,18 @@ function MissionBento() {
   }
 
   const BRICKS = [
-    { label: 'Mission',    bg: '#111111',  color: '#fff',     size: 'large'  },
-    { label: 'Community',  bg: '#333333',  color: '#fff',     size: 'small'  },
-    { label: 'Design',     bg: '#555555',  color: '#fff',     size: 'small'  },
-    { label: 'Build',      bg: '#222222',  color: '#fff',     size: 'medium' },
-    { label: 'India',      bg: '#111111',  color: '#fff',     size: 'medium' },
-    { label: 'Expertise',  bg: '#EEEEEE',  color: '#111111',  size: 'small'  },
-    { label: 'Growth',     bg: '#333333',  color: '#fff',     size: 'small'  },
-    { label: 'Construct',  bg: '#555555',  color: '#fff',     size: 'large'  },
-    { label: 'Improve',    bg: '#EEEEEE',  color: '#111111',  size: 'medium' },
-    { label: 'Rehabilitate', bg: '#222222', color: '#fff',    size: 'medium' },
-    { label: 'Plan',       bg: '#111111',  color: '#fff',     size: 'small'  },
-    { label: 'Develop',    bg: '#EEEEEE',  color: '#111111',  size: 'small'  },
+    { label: 'Mission', bg: '#0d2a4a', color: '#fff', size: 'large' },
+    { label: 'Community', bg: '#1a4a7a', color: '#fff', size: 'small' },
+    { label: 'Design', bg: '#555555', color: '#fff', size: 'small' },
+    { label: 'Build', bg: '#2a5a9a', color: '#fff', size: 'medium' },
+    { label: 'India', bg: '#111111', color: '#fff', size: 'medium' },
+    { label: 'Expertise', bg: '#EEEEEE', color: '#111111', size: 'small' },
+    { label: 'Growth', bg: '#1e3d6a', color: '#fff', size: 'small' },
+    { label: 'Construct', bg: '#555555', color: '#fff', size: 'large' },
+    { label: 'Improve', bg: '#EEEEEE', color: '#111111', size: 'medium' },
+    { label: 'Rehabilitate', bg: '#2a5a9a', color: '#fff', size: 'medium' },
+    { label: 'Plan', bg: '#111111', color: '#fff', size: 'small' },
+    { label: 'Develop', bg: '#EEEEEE', color: '#111111', size: 'small' },
   ]
 
   return (
@@ -105,7 +105,7 @@ function MissionBento() {
           </div>
           <div className="mission-bento__hint">
             <span>TAP</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12l7 7 7-7" /></svg>
             <span>to reveal our mission</span>
           </div>
         </>
@@ -142,8 +142,10 @@ export default function About() {
       // ── Stat boxes slam in ──
       gsap.fromTo('.stat-box',
         { opacity: 0, y: 60, scale: 0.9 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.75, stagger: 0.15, ease: 'back.out(1.5)',
-          scrollTrigger: { trigger: '.about-company', start: 'top 80%' } }
+        {
+          opacity: 1, y: 0, scale: 1, duration: 0.75, stagger: 0.15, ease: 'back.out(1.5)',
+          scrollTrigger: { trigger: '.about-company', start: 'top 80%' }
+        }
       )
 
       // ── Counter ──
@@ -152,7 +154,8 @@ export default function About() {
         const suffix = el.dataset.suffix || ''
         ScrollTrigger.create({
           trigger: el, start: 'top 85%', once: true,
-          onEnter: () => gsap.fromTo({ v: 0 }, { v: val, duration: 2, ease: 'power2.out',
+          onEnter: () => gsap.fromTo({ v: 0 }, {
+            v: val, duration: 2, ease: 'power2.out',
             onUpdate: function () { el.textContent = Math.round(this.targets()[0].v) + suffix }
           })
         })
@@ -169,29 +172,37 @@ export default function About() {
       // ── Philosophy items ──
       gsap.fromTo('.philosophy-item',
         { opacity: 0, x: -50 },
-        { opacity: 1, x: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out',
-          scrollTrigger: { trigger: '.philosophy-list', start: 'top 83%' } }
+        {
+          opacity: 1, x: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out',
+          scrollTrigger: { trigger: '.philosophy-list', start: 'top 83%' }
+        }
       )
 
       // ── Vision items ──
       gsap.fromTo('.vision-item',
         { opacity: 0, x: 40 },
-        { opacity: 1, x: 0, duration: 0.75, stagger: 0.12, ease: 'power3.out',
-          scrollTrigger: { trigger: '.vision-list', start: 'top 83%' } }
+        {
+          opacity: 1, x: 0, duration: 0.75, stagger: 0.12, ease: 'power3.out',
+          scrollTrigger: { trigger: '.vision-list', start: 'top 83%' }
+        }
       )
 
       // ── Value cards: pop onto screen ──
       gsap.fromTo('.value-card',
         { opacity: 0, scale: 0.82, y: 40 },
-        { opacity: 1, scale: 1, y: 0, duration: 0.65, stagger: 0.1, ease: 'back.out(1.7)',
-          scrollTrigger: { trigger: '.values-grid', start: 'top 83%' } }
+        {
+          opacity: 1, scale: 1, y: 0, duration: 0.65, stagger: 0.1, ease: 'back.out(1.7)',
+          scrollTrigger: { trigger: '.values-grid', start: 'top 83%' }
+        }
       )
 
       // ── Approach ──
       gsap.fromTo('.approach-block',
         { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.65, stagger: 0.08, ease: 'power3.out',
-          scrollTrigger: { trigger: '.approach-grid', start: 'top 85%' } }
+        {
+          opacity: 1, y: 0, duration: 0.65, stagger: 0.08, ease: 'power3.out',
+          scrollTrigger: { trigger: '.approach-grid', start: 'top 85%' }
+        }
       )
 
     }, ref)
@@ -231,9 +242,9 @@ export default function About() {
           {/* Stat boxes — dominant left column */}
           <div className="about-company__left">
             {[
-              { val: '20', suffix: '+', label: 'Years of Excellence', accent: '#111111' },
-              { val: '80', suffix: '+', label: 'Projects Delivered',  accent: '#333333' },
-              { val: '6',  suffix: '',  label: 'States Served',       accent: '#555555' },
+              { val: '20', suffix: '+', label: 'Years of Excellence', accent: '#1a4a7a' },
+              { val: '80', suffix: '+', label: 'Projects Delivered', accent: '#2a5a9a' },
+              { val: '6', suffix: '', label: 'States Served', accent: '#1e3d6a' },
             ].map(({ val, suffix, label, accent }) => (
               <div className="stat-box" key={label} style={{ '--accent': accent }}>
                 <span className="counter stat-box__num" data-val={val} data-suffix={suffix}>
@@ -301,10 +312,10 @@ export default function About() {
             {PHILOSOPHY.map((item, i) => (
               <div className="philosophy-item" key={i}>
                 <span className="philosophy-item__num" style={{
-                  color: ['#111111','#333333','#555555','#111111'][i]
+                  color: ['#1a4a7a', '#2a5a9a', '#1e3d6a', '#1a4a7a'][i]
                 }}>0{i + 1}</span>
                 <p>{item}</p>
-                <svg className="philosophy-item__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <svg className="philosophy-item__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
               </div>
             ))}
           </div>
@@ -331,7 +342,7 @@ export default function About() {
             {VISION_ITEMS.map((item, i) => (
               <li className="vision-item" key={i}>
                 <span className="vision-item__dot" style={{
-                  background: ['#111111','#333333','#555555'][i]
+                  background: ['#1a4a7a', '#2a5a9a', '#1e3d6a'][i]
                 }} />
                 <p>{item}</p>
               </li>
@@ -380,12 +391,12 @@ export default function About() {
           </p>
           <div className="approach-grid">
             {[
-              ['01', 'Needs Assessment',   'Deep-dive into what the client requires, site constraints, and community impact.',       '#111111'],
-              ['02', 'Planning & Design',  'Concept design through detailed engineering — our in-house team handles everything.',     '#333333'],
-              ['03', 'Procurement',        'Strategic procurement that balances quality, cost, and schedule.',                        '#555555'],
-              ['04', 'Construction',       'Precision on-site execution with certified safety and quality monitoring.',               '#111111'],
-              ['05', 'Project Management', 'End-to-end site management, reporting, and stakeholder communication.',                   '#333333'],
-              ['06', 'Handover & Support', 'Lock-and-key handover with post-completion support and capacity building.',               '#555555'],
+              ['01', 'Needs Assessment', 'Deep-dive into what the client requires, site constraints, and community impact.', '#1a4a7a'],
+              ['02', 'Planning & Design', 'Concept design through detailed engineering — our in-house team handles everything.', '#2a5a9a'],
+              ['03', 'Procurement', 'Strategic procurement that balances quality, cost, and schedule.', '#1e3d6a'],
+              ['04', 'Construction', 'Precision on-site execution with certified safety and quality monitoring.', '#1a4a7a'],
+              ['05', 'Project Management', 'End-to-end site management, reporting, and stakeholder communication.', '#2a5a9a'],
+              ['06', 'Handover & Support', 'Lock-and-key handover with post-completion support and capacity building.', '#1e3d6a'],
             ].map(([step, title, desc, col]) => (
               <div className="approach-block" key={step}>
                 <span className="approach-block__step" style={{ color: col }}>{step}</span>

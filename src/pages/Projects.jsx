@@ -5,6 +5,47 @@ import './Projects.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
+// Vite glob import — pulls in ALL images from src/assets/projects/ at build time
+const ALL_IMAGES = import.meta.glob(
+  '../assets/projects/*',
+  { eager: true, import: 'default' }
+)
+
+// Map project id → resolved image URL
+// Key is the filename as it appears in your folder
+const IMG_FILES = {
+  1: 'st. louis.png',
+  3: 'ganesh vidya mandir.png',
+  5: 'don bosco .png',
+  6: 'enet house.png',
+  7: 'om palace.png',
+  8: 'st annes.png',
+  9: 'bhavbandhan.png',
+  10: 'gavdevikrupa.png',
+  11: 'anthony fibre.png',
+  12: 'harware.png',
+  13: "Haware's Vrindavan.png",
+  14: 'Haware Silicon Tower, Vashi, Navi....png',
+  15: 'John XXIII High School, Virar.png',
+  16: 'st annes.png',
+  17: 'star electricals.png',
+  18: 'st annes.png',
+  19: 'st annes.png',
+  20: 'architectural design.jpg',
+  21: 'st annes.png',
+  22: 'karwar bungalow.png',
+  23: 'private bunglow 2.webp',
+  24: 'private bunglow.webp',
+}
+
+// Build resolved URL map — Vite keys look like '../assets/projects/filename'
+const IMG = Object.fromEntries(
+  Object.entries(IMG_FILES).map(([id, file]) => {
+    const key = `../assets/projects/${file}`
+    return [Number(id), ALL_IMAGES[key]]
+  })
+)
+
 const PROJECTS = [
   /* ── MUMBAI ── */
   { id: 1, area: 'Mumbai', name: 'St. Louis Convent School', location: 'Andheri (W), Mumbai', type: 'Institutional', scope: 'Auditorium hall civil work and interior work', color: '#333333' },
@@ -93,7 +134,7 @@ export default function Projects() {
             <span className="eyebrow__line" /><span className="eyebrow__text">Our Work</span>
           </div>
           <h1 className="projects-hero__title">
-            {['Every', 'structure', 'tells', 'a'].map((w, i) => (
+            {['Every structure tells a'].map((w, i) => (
               <span key={i} className="word">{w} </span>
             ))}
             <br />
@@ -114,10 +155,7 @@ export default function Projects() {
         </div>
       </section>
 
-      {/* ── DESKTOP: area bar (top) + sidebar (type) + grid ── */}
-      {/* ── MOBILE: sticky filter bar (area tabs + type select + ongoing) ── */}
-
-      {/* MOBILE ONLY filter bar — hidden on desktop */}
+      {/* ── MOBILE FILTER BAR ── */}
       <div className="projects-filters projects-filters--mobile">
         <div className="container projects-filters__inner">
           <div className="filter-group">
@@ -141,7 +179,7 @@ export default function Projects() {
         </div>
       </div>
 
-      {/* DESKTOP ONLY: area bar across top */}
+      {/* ── DESKTOP AREA BAR ── */}
       <div className="projects-area-bar projects-area-bar--desktop">
         <div className="container projects-area-bar__inner">
           {AREAS.map(a => (
@@ -150,11 +188,11 @@ export default function Projects() {
         </div>
       </div>
 
-      {/* GRID SECTION */}
+      {/* ── GRID SECTION ── */}
       <section className="projects-grid-section">
         <div className="container projects-layout">
 
-          {/* DESKTOP SIDEBAR — type list + ongoing */}
+          {/* Sidebar */}
           <aside className="proj-sidebar">
             <p className="proj-sidebar__label">Type</p>
             <ul className="proj-type-list">
@@ -174,14 +212,14 @@ export default function Projects() {
             </button>
           </aside>
 
-          {/* MAIN CONTENT */}
+          {/* Main grid */}
           <div className="proj-main">
             <p className="projects-count">{filtered.length} project{filtered.length !== 1 ? 's' : ''}</p>
             <div className="projects-grid" ref={gridRef}>
               {filtered.map(p => (
                 <div className="project-card" key={p.id}>
-                  <div className="project-card__image" style={{ background: p.color }}>
-                    <ProjectPlaceholder name={p.name} type={p.type} color={p.color} />
+                  <div className="project-card__image">
+                    <ProjectImage id={p.id} name={p.name} type={p.type} color={p.color} />
                     {p.ongoing && <span className="project-card__badge">Ongoing</span>}
                     <div className="project-card__image-overlay" />
                   </div>
@@ -200,9 +238,10 @@ export default function Projects() {
             {filtered.length === 0 && (
               <div className="projects-empty">
                 <span>No projects match your filters.</span>
-                <button className="btn btn--outline" onClick={() => { setActiveArea('All'); setActiveType('All Types'); setShowOngoing(false) }}>
-                  Clear Filters
-                </button>
+                <button
+                  className="btn btn--outline"
+                  onClick={() => { setActiveArea('All'); setActiveType('All Types'); setShowOngoing(false) }}
+                >Clear Filters</button>
               </div>
             )}
           </div>
@@ -214,26 +253,50 @@ export default function Projects() {
   )
 }
 
-function ProjectPlaceholder({ name, type, color }) {
+/* ── Project image: resolved via Vite glob, falls back to SVG ── */
+function ProjectImage({ id, name, type, color }) {
+  const [err, setErr] = useState(false)
+  const src = IMG[id]
+
+  if (src && !err) {
+    return (
+      <img
+        src={src}
+        alt={name}
+        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        onError={() => setErr(true)}
+      />
+    )
+  }
+
+  return <FallbackImg name={name} type={type} color={color} />
+}
+
+/* ── SVG fallback ── */
+function FallbackImg({ name, type, color }) {
+  const gid = `g-${(name || type).replace(/[^a-z0-9]/gi, '-')}`
   return (
     <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" style={{ display: 'block' }}>
       <defs>
-        <linearGradient id={`g-${name.replace(/\s/g, '-')}`} x1="0" y1="0" x2="1" y2="1">
+        <linearGradient id={gid} x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor={color} stopOpacity="1" />
           <stop offset="100%" stopColor={color} stopOpacity="0.6" />
         </linearGradient>
       </defs>
-      <rect width="400" height="260" fill={`url(#g-${name.replace(/\s/g, '-')})`} />
+      <rect width="400" height="260" fill={`url(#${gid})`} />
       {[80, 160, 240, 320].map(x => <line key={x} x1={x} y1="0" x2={x} y2="260" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />)}
       {[65, 130, 195].map(y => <line key={y} x1="0" y1={y} x2="400" y2={y} stroke="rgba(255,255,255,0.06)" strokeWidth="1" />)}
       <rect x="60" y="80" width="80" height="130" fill="rgba(255,255,255,0.12)" rx="2" />
-      <rect x="160" y="110" width="100" height="100" fill="rgba(255,255,255,0.1)" rx="2" />
+      <rect x="160" y="110" width="100" height="100" fill="rgba(255,255,255,0.10)" rx="2" />
       <rect x="280" y="130" width="60" height="80" fill="rgba(255,255,255,0.08)" rx="2" />
       {[0, 1, 2, 3].map(r => [0, 1, 2].map(c =>
         <rect key={`${r}-${c}`} x={70 + c * 22} y={92 + r * 26} width={12} height={16} fill="rgba(255,255,255,0.18)" rx="1" />
       ))}
       <rect x="0" y="210" width="400" height="50" fill="rgba(0,0,0,0.25)" />
-      <text x="200" y="238" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="10" fontFamily="Montserrat,sans-serif" fontWeight="600" letterSpacing="1">{type.toUpperCase()}</text>
+      <text x="200" y="238" textAnchor="middle" fill="rgba(255,255,255,0.6)"
+        fontSize="10" fontFamily="Montserrat,sans-serif" fontWeight="600" letterSpacing="1">
+        {type.toUpperCase()}
+      </text>
     </svg>
   )
 }
