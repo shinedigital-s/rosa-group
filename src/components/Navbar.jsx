@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { NavLink, useNavigate, useLocation } from 'react-router-dom'
+import logoImg from '../assets/projects/logo.jpg'
 import './Navbar.css'
 
 const LINKS = [
@@ -15,7 +16,6 @@ export default function Navbar() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  /* scroll to top on every route change */
   useEffect(() => {
     window.scrollTo(0, 0)
     setOpen(false)
@@ -31,18 +31,12 @@ export default function Navbar() {
     <nav className={`nav${scrolled ? ' nav--scrolled' : ''}${open ? ' nav--open' : ''}`}>
       <div className="nav__inner container">
 
-        {/* LOGO — drop logo.png into src/assets/ */}
         <NavLink to="/" className="nav__logo">
           <img
-            src="src/assets/projects/logo.jpg"
+            src={logoImg}
             alt="The ROSA Group"
             className="nav__logo-img"
-            onError={e => {
-              e.target.style.display = 'none'
-              e.target.nextElementSibling.style.display = 'flex'
-            }}
           />
-
         </NavLink>
 
         <ul className="nav__links">

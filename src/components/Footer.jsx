@@ -12,15 +12,7 @@ export default function Footer() {
               src={logoImg}
               alt="The ROSA Group"
               style={{ height: '56px', width: 'auto' }}
-              onError={e => {
-                e.target.style.display = 'none'
-                e.target.nextElementSibling.style.display = 'block'
-              }}
             />
-            <div style={{ display: 'none' }}>
-              <div className="footer__logo-name">The ROSA Group</div>
-              <div className="footer__logo-tagline">Delivering Expectations</div>
-            </div>
           </div>
           <p className="footer__desc">
             A multi-disciplinary civil contracting firm serving India's
