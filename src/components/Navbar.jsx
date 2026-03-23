@@ -34,7 +34,7 @@ export default function Navbar() {
         {/* LOGO — drop logo.png into src/assets/ */}
         <NavLink to="/" className="nav__logo">
           <img
-            src="src/assets/logo.png"
+            src="src/assets/projects/logo.jpg"
             alt="The ROSA Group"
             className="nav__logo-img"
             onError={e => {

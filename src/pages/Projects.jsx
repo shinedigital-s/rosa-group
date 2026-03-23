@@ -140,7 +140,7 @@ export default function Projects() {
             <span className="eyebrow__line" /><span className="eyebrow__text">Our Work</span>
           </div>
           <h1 className="projects-hero__title">
-            {['Every', 'structure', 'tells', 'a'].map((w, i) => (
+            {['Every structure tells a'].map((w, i) => (
               <span key={i} className="word">{w} </span>
             ))}
             <br />

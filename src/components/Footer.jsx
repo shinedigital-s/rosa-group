@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import logoImg from '../assets/logo.png'
+import logoImg from '../assets/projects/logo.jpg'
 import './Footer.css'
 
 export default function Footer() {
@@ -11,8 +11,11 @@ export default function Footer() {
             <img
               src={logoImg}
               alt="The ROSA Group"
-              style={{ height: '40px', width: 'auto', filter: 'brightness(0) invert(1)' }}
-              onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='block' }}
+              style={{ height: '56px', width: 'auto' }}
+              onError={e => {
+                e.target.style.display = 'none'
+                e.target.nextElementSibling.style.display = 'block'
+              }}
             />
             <div style={{ display: 'none' }}>
               <div className="footer__logo-name">The ROSA Group</div>
@@ -29,7 +32,7 @@ export default function Footer() {
         <div className="footer__nav">
           <h4 className="footer__heading">Navigation</h4>
           <ul>
-            {[['/', 'Home'], ['/about','About Us'], ['/projects','Our Projects'], ['/contact','Contact Us']].map(([to, label]) => (
+            {[['/', 'Home'], ['/about', 'About Us'], ['/projects', 'Our Projects'], ['/contact', 'Contact Us']].map(([to, label]) => (
               <li key={to}><NavLink to={to} end={to === '/'}>{label}</NavLink></li>
             ))}
           </ul>

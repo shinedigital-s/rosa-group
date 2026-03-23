@@ -55,27 +55,11 @@ const PHILOSOPHY = [
   'A craftsman-like pride in knowing what we construct will last for generations',
 ]
 
-/* ── Bento Wall mission component ── */
+/* ── Mission Bento — smooth phased explosion ── */
 function MissionBento() {
-  const [smashed, setSmashed] = useState(false)
+  const [phase, setPhase] = useState('idle') // idle | exploding | revealed
   const wallRef = useRef(null)
-
-  const handleSmash = () => {
-    if (smashed) return
-    // explode every brick outward with GSAP
-    const bricks = wallRef.current.querySelectorAll('.brick')
-    bricks.forEach((b) => {
-      const dx = (Math.random() - 0.5) * 900
-      const dy = (Math.random() - 0.5) * 600
-      const rot = (Math.random() - 0.5) * 720
-      gsap.to(b, {
-        x: dx, y: dy, rotation: rot, opacity: 0,
-        duration: 0.8 + Math.random() * 0.4,
-        ease: 'power3.in',
-      })
-    })
-    gsap.delayedCall(0.6, () => setSmashed(true))
-  }
+  const quoteRef = useRef(null)
 
   const BRICKS = [
     { label: 'Mission', bg: '#0d2a4a', color: '#fff', size: 'large' },
@@ -92,31 +76,106 @@ function MissionBento() {
     { label: 'Develop', bg: '#EEEEEE', color: '#111111', size: 'small' },
   ]
 
+  const handleSmash = () => {
+    if (phase !== 'idle') return
+    setPhase('exploding')
+
+    const bricks = wallRef.current?.querySelectorAll('.brick')
+    if (!bricks) return
+
+    bricks.forEach((brick, i) => {
+      // Each brick gets a unique outward direction + spin
+      const angle = (i / bricks.length) * Math.PI * 2 + Math.random() * 0.5
+      const dist = 280 + Math.random() * 380
+      const dx = Math.cos(angle) * dist
+      const dy = Math.sin(angle) * dist - 100  // bias upward
+      const rot = (Math.random() - 0.5) * 600
+      const delay = i * 0.035                      // smooth stagger wave
+
+      gsap.to(brick, {
+        x: dx,
+        y: dy,
+        rotation: rot,
+        opacity: 0,
+        scale: 0.2 + Math.random() * 0.5,
+        duration: 0.65 + Math.random() * 0.25,
+        delay,
+        ease: 'power3.in',
+        overwrite: true,
+      })
+    })
+
+    // Reveal quote after last brick has flown
+    const lastDelay = (bricks.length - 1) * 0.035 + 0.65
+    gsap.delayedCall(lastDelay * 0.75, () => setPhase('revealed'))
+  }
+
+  // Animate quote word-by-word once revealed
+  useEffect(() => {
+    if (phase !== 'revealed' || !quoteRef.current) return
+
+    const words = quoteRef.current.querySelectorAll('.q-word')
+    const line = quoteRef.current.querySelector('.q-line')
+
+    // Line draws down
+    gsap.fromTo(line,
+      { scaleY: 0, transformOrigin: 'top center' },
+      { scaleY: 1, duration: 1, ease: 'power3.out' }
+    )
+
+    // Words fade + rise + unblur in sequence
+    gsap.fromTo(words,
+      { opacity: 0, y: 14, filter: 'blur(6px)' },
+      {
+        opacity: 1,
+        y: 0,
+        filter: 'blur(0px)',
+        duration: 0.45,
+        stagger: 0.05,
+        ease: 'power2.out',
+        delay: 0.15,
+      }
+    )
+  }, [phase])
+
+  const QUOTE = 'Our mission is to address the needs of our clients through the employment of our expertise in the development, planning and design, improvement, construction and rehabilitation of the living environment of communities throughout India.'
+
   return (
-    <div className="mission-bento" onClick={handleSmash}>
-      {!smashed ? (
-        <>
-          <div className="mission-bento__wall" ref={wallRef}>
-            {BRICKS.map((b, i) => (
-              <div key={i} className={`brick brick--${b.size}`} style={{ background: b.bg, color: b.color }}>
-                {b.label}
-              </div>
-            ))}
+    <div
+      className={`mission-bento${phase === 'idle' ? ' mission-bento--idle' : ''}`}
+      onClick={handleSmash}
+    >
+      {/* Wall — always rendered so ref works during explosion */}
+      <div
+        className="mission-bento__wall"
+        ref={wallRef}
+        style={{ display: phase === 'revealed' ? 'none' : 'grid' }}
+      >
+        {BRICKS.map((b, i) => (
+          <div key={i} className={`brick brick--${b.size}`} style={{ background: b.bg, color: b.color }}>
+            {b.label}
           </div>
-          <div className="mission-bento__hint">
-            <span>TAP</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12l7 7 7-7" /></svg>
-            <span>to reveal our mission</span>
-          </div>
-        </>
-      ) : (
-        <div className="mission-bento__quote">
-          <div className="mission-bento__quote-line" />
+        ))}
+      </div>
+
+      {/* Hint — only while idle */}
+      {phase === 'idle' && (
+        <div className="mission-bento__hint">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M12 5v14M5 12l7 7 7-7" />
+          </svg>
+          <span>Tap to reveal our mission</span>
+        </div>
+      )}
+
+      {/* Quote — revealed after explosion */}
+      {phase === 'revealed' && (
+        <div className="mission-bento__quote" ref={quoteRef}>
+          <div className="q-line" />
           <blockquote>
-            "Our mission is to address the needs of our clients through the employment
-            of our expertise in the development planning and design, improvement,
-            construction and rehabilitation of the living environment of communities
-            throughout India."
+            {QUOTE.split(' ').map((word, i) => (
+              <span key={i} className="q-word">{word}&nbsp;</span>
+            ))}
           </blockquote>
         </div>
       )}
@@ -129,7 +188,6 @@ export default function About() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // ── Hero: words animate in with overflow clip ──
       gsap.fromTo('.ah-word',
         { yPercent: 110, skewY: 4 },
         { yPercent: 0, skewY: 0, duration: 1.1, stagger: 0.09, ease: 'power4.out', delay: 0.3 }
@@ -138,8 +196,6 @@ export default function About() {
         { opacity: 0, y: 22 },
         { opacity: 1, y: 0, duration: 0.9, delay: 1.1, ease: 'power3.out' }
       )
-
-      // ── Stat boxes slam in ──
       gsap.fromTo('.stat-box',
         { opacity: 0, y: 60, scale: 0.9 },
         {
@@ -147,8 +203,6 @@ export default function About() {
           scrollTrigger: { trigger: '.about-company', start: 'top 80%' }
         }
       )
-
-      // ── Counter ──
       document.querySelectorAll('.counter').forEach(el => {
         const val = parseFloat(el.dataset.val)
         const suffix = el.dataset.suffix || ''
@@ -160,16 +214,12 @@ export default function About() {
           })
         })
       })
-
-      // ── Story text ──
       gsap.utils.toArray('.reveal').forEach(el => {
         gsap.fromTo(el, { opacity: 0, y: 40 }, {
           opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
           scrollTrigger: { trigger: el, start: 'top 88%' }
         })
       })
-
-      // ── Philosophy items ──
       gsap.fromTo('.philosophy-item',
         { opacity: 0, x: -50 },
         {
@@ -177,8 +227,6 @@ export default function About() {
           scrollTrigger: { trigger: '.philosophy-list', start: 'top 83%' }
         }
       )
-
-      // ── Vision items ──
       gsap.fromTo('.vision-item',
         { opacity: 0, x: 40 },
         {
@@ -186,8 +234,6 @@ export default function About() {
           scrollTrigger: { trigger: '.vision-list', start: 'top 83%' }
         }
       )
-
-      // ── Value cards: pop onto screen ──
       gsap.fromTo('.value-card',
         { opacity: 0, scale: 0.82, y: 40 },
         {
@@ -195,8 +241,6 @@ export default function About() {
           scrollTrigger: { trigger: '.values-grid', start: 'top 83%' }
         }
       )
-
-      // ── Approach ──
       gsap.fromTo('.approach-block',
         { opacity: 0, y: 30 },
         {
@@ -204,7 +248,6 @@ export default function About() {
           scrollTrigger: { trigger: '.approach-grid', start: 'top 85%' }
         }
       )
-
     }, ref)
     return () => ctx.revert()
   }, [])
@@ -212,7 +255,6 @@ export default function About() {
   return (
     <div className="about" ref={ref}>
 
-      {/* ── 1. HERO ── */}
       <section className="about-hero">
         <div className="about-hero__bg" />
         <div className="container about-hero__inner">
@@ -220,7 +262,6 @@ export default function About() {
             <span className="eyebrow__line" /><span className="eyebrow__text">About Us</span>
           </div>
           <h1 className="about-hero__title">
-            {/* Each line clipped so words slide up cleanly */}
             <span className="ah-line"><span className="ah-word">We don't just</span></span>
             <span className="ah-line"><span className="ah-word">build structures.</span></span>
             <span className="ah-line">
@@ -235,11 +276,8 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── 2. COMPANY STATS + STORY ── */}
       <section className="about-company">
         <div className="container about-company__grid">
-
-          {/* Stat boxes — dominant left column */}
           <div className="about-company__left">
             {[
               { val: '20', suffix: '+', label: 'Years of Excellence', accent: '#1a4a7a' },
@@ -247,42 +285,22 @@ export default function About() {
               { val: '6', suffix: '', label: 'States Served', accent: '#1e3d6a' },
             ].map(({ val, suffix, label, accent }) => (
               <div className="stat-box" key={label} style={{ '--accent': accent }}>
-                <span className="counter stat-box__num" data-val={val} data-suffix={suffix}>
-                  {val}{suffix}
-                </span>
+                <span className="counter stat-box__num" data-val={val} data-suffix={suffix}>{val}{suffix}</span>
                 <span className="stat-box__label">{label}</span>
                 <div className="stat-box__bar" />
               </div>
             ))}
           </div>
-
-          {/* Story text — secondary right */}
           <div className="about-company__right">
-            <div className="eyebrow reveal">
-              <span className="eyebrow__line" /><span className="eyebrow__text">Our Story</span>
-            </div>
-            <h2 className="section-title reveal">
-              A multi-disciplinary firm <em>built for India</em>
-            </h2>
-            <p className="reveal">
-              ROSA Infra is a multi-disciplinary firm founded specifically to address the diverse
-              needs of our clients throughout India. Specialised associates have joined forces
-              under one umbrella — The ROSA Group.
-            </p>
-            <p className="reveal">
-              Each specialised company consists of highly qualified and experienced individuals
-              with a unique combination of backgrounds in infrastructure development and
-              practical implementation experience in their fields of expertise.
-            </p>
-            <p className="reveal">
-              This unique combination enables us to implement the best available technology
-              in a practical sense in a developing environment.
-            </p>
+            <div className="eyebrow reveal"><span className="eyebrow__line" /><span className="eyebrow__text">Our Story</span></div>
+            <h2 className="section-title reveal">A multi-disciplinary firm <em>built for India</em></h2>
+            <p className="reveal">ROSA Infra is a multi-disciplinary firm founded specifically to address the diverse needs of our clients throughout India. Specialised associates have joined forces under one umbrella — The ROSA Group.</p>
+            <p className="reveal">Each specialised company consists of highly qualified and experienced individuals with a unique combination of backgrounds in infrastructure development and practical implementation experience in their fields of expertise.</p>
+            <p className="reveal">This unique combination enables us to implement the best available technology in a practical sense in a developing environment.</p>
           </div>
         </div>
       </section>
 
-      {/* ── 3. MISSION — bento wall smash ── */}
       <section className="about-mission">
         <div className="container">
           <div className="eyebrow about-mission__eyebrow">
@@ -292,28 +310,17 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── 4. PHILOSOPHY ── */}
       <section className="about-philosophy">
         <div className="container">
           <div className="philosophy-header">
-            <div className="eyebrow reveal">
-              <span className="eyebrow__line" /><span className="eyebrow__text">Our Philosophy</span>
-            </div>
-            <h2 className="section-title reveal">
-              Over 20 years of <em>guiding values</em>
-            </h2>
-            <p className="philosophy-lead reveal">
-              Over the past 20 years, ROSA Infra has emerged as one of the most respected general
-              contracting firms in Mumbai — repeatedly proving our ability to take large, complex
-              projects and complete them on time, on budget, and at the highest levels of quality.
-            </p>
+            <div className="eyebrow reveal"><span className="eyebrow__line" /><span className="eyebrow__text">Our Philosophy</span></div>
+            <h2 className="section-title reveal">Over 20 years of <em>guiding values</em></h2>
+            <p className="philosophy-lead reveal">Over the past 20 years, ROSA Infra has emerged as one of the most respected general contracting firms in Mumbai — repeatedly proving our ability to take large, complex projects and complete them on time, on budget, and at the highest levels of quality.</p>
           </div>
           <div className="philosophy-list">
             {PHILOSOPHY.map((item, i) => (
               <div className="philosophy-item" key={i}>
-                <span className="philosophy-item__num" style={{
-                  color: ['#1a4a7a', '#2a5a9a', '#1e3d6a', '#1a4a7a'][i]
-                }}>0{i + 1}</span>
+                <span className="philosophy-item__num" style={{ color: ['#1a4a7a', '#2a5a9a', '#1e3d6a', '#1a4a7a'][i] }}>0{i + 1}</span>
                 <p>{item}</p>
                 <svg className="philosophy-item__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
               </div>
@@ -322,28 +329,17 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── 5. VISION ── */}
       <section className="about-vision">
         <div className="container about-vision__grid">
           <div className="about-vision__left">
-            <div className="eyebrow reveal">
-              <span className="eyebrow__line" /><span className="eyebrow__text">Vision</span>
-            </div>
-            <h2 className="section-title reveal">
-              Contractor of <em>choice</em><br />across India
-            </h2>
-            <p className="reveal">
-              ROSA Infra aims to be the contractor of choice in the construction industry
-              throughout India — through a solid commitment to safe, timely, high quality,
-              innovative and cost-effective construction.
-            </p>
+            <div className="eyebrow reveal"><span className="eyebrow__line" /><span className="eyebrow__text">Vision</span></div>
+            <h2 className="section-title reveal">Contractor of <em>choice</em><br />across India</h2>
+            <p className="reveal">ROSA Infra aims to be the contractor of choice in the construction industry throughout India — through a solid commitment to safe, timely, high quality, innovative and cost-effective construction.</p>
           </div>
           <ul className="vision-list">
             {VISION_ITEMS.map((item, i) => (
               <li className="vision-item" key={i}>
-                <span className="vision-item__dot" style={{
-                  background: ['#1a4a7a', '#2a5a9a', '#1e3d6a'][i]
-                }} />
+                <span className="vision-item__dot" style={{ background: ['#1a4a7a', '#2a5a9a', '#1e3d6a'][i] }} />
                 <p>{item}</p>
               </li>
             ))}
@@ -351,21 +347,16 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── 6. VALUES — SVG icons, pop animation ── */}
       <section className="about-values">
         <div className="container">
           <div className="about-values__header">
-            <div className="eyebrow reveal">
-              <span className="eyebrow__line" /><span className="eyebrow__text">Values</span>
-            </div>
+            <div className="eyebrow reveal"><span className="eyebrow__line" /><span className="eyebrow__text">Values</span></div>
             <h2 className="section-title reveal">The principles that <em>guide us</em></h2>
           </div>
           <div className="values-grid">
             {VALUES.map(({ Icon, title, desc, accent }) => (
               <div className="value-card" key={title} style={{ '--card-accent': accent }}>
-                <div className="value-card__icon-wrap">
-                  <Icon />
-                </div>
+                <div className="value-card__icon-wrap"><Icon /></div>
                 <h3>{title}</h3>
                 <p>{desc}</p>
                 <div className="value-card__bottom-line" />
@@ -375,20 +366,11 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── 7. APPROACH ── */}
       <section className="about-approach">
         <div className="container">
-          <div className="eyebrow reveal">
-            <span className="eyebrow__line" /><span className="eyebrow__text">Approach to Business</span>
-          </div>
-          <h2 className="section-title reveal" style={{ marginBottom: '16px' }}>
-            From <em>needs assessment</em> to hand-over
-          </h2>
-          <p className="approach-lead reveal">
-            ROSA Infra provides a full range of services — from needs assessment and project
-            identification through design, procurement, construction, project management,
-            maintenance, and operation.
-          </p>
+          <div className="eyebrow reveal"><span className="eyebrow__line" /><span className="eyebrow__text">Approach to Business</span></div>
+          <h2 className="section-title reveal" style={{ marginBottom: '16px' }}>From <em>needs assessment</em> to hand-over</h2>
+          <p className="approach-lead reveal">ROSA Infra provides a full range of services — from needs assessment and project identification through design, procurement, construction, project management, maintenance, and operation.</p>
           <div className="approach-grid">
             {[
               ['01', 'Needs Assessment', 'Deep-dive into what the client requires, site constraints, and community impact.', '#1a4a7a'],
