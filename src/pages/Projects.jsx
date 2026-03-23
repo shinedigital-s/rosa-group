@@ -5,49 +5,59 @@ import './Projects.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// Vite glob import — pulls in ALL images from src/assets/projects/ at build time
-const ALL_IMAGES = import.meta.glob(
-  '../assets/projects/*',
-  { eager: true, import: 'default' }
-)
+// Glob both folders as URLs — the correct Vite syntax for image src
+const ROOT = import.meta.glob('../assets/projects/*', { eager: true, as: 'url' })
+const SENT = import.meta.glob('../assets/projects/sent/*', { eager: true, as: 'url' })
 
-// Map project id → resolved image URL
-// Key is the filename as it appears in your folder
-const IMG_FILES = {
-  1: 'st. louis.png',
-  3: 'ganesh vidya mandir.png',
-  5: 'don bosco .png',
-  6: 'enet house.png',
-  7: 'om palace.png',
-  8: 'st annes.png',
-  9: 'bhavbandhan.png',
-  10: 'gavdevikrupa.png',
-  11: 'anthony fibre.png',
-  12: 'harware.png',
-  13: "Haware's Vrindavan.png",
-  14: 'Haware Silicon Tower, Vashi, Navi....png',
-  15: 'John XXIII High School, Virar.png',
-  16: 'st annes.png',
-  17: 'star electricals.png',
-  18: 'st annes.png',
-  19: 'st annes.png',
-  20: 'architectural design.jpg',
-  21: 'st annes.png',
-  22: 'karwar bungalow.png',
-  23: 'private bunglow 2.webp',
-  24: 'private bunglow.webp',
+function resolve(filename) {
+  if (!filename) return null
+  // Try the filename as-is first (for files where extension is already included)
+  const direct = SENT[`../assets/projects/sent/${filename}`]
+    || ROOT[`../assets/projects/${filename}`]
+  if (direct) return direct
+
+  // Try common extensions automatically (handles Windows hiding extensions)
+  for (const ext of ['.jpg', '.jpeg', '.png', '.webp', '.JPG', '.JPEG', '.PNG']) {
+    const url = SENT[`../assets/projects/sent/${filename}${ext}`]
+      || ROOT[`../assets/projects/${filename}${ext}`]
+    if (url) return url
+  }
+  return null
 }
 
-// Build resolved URL map — Vite keys look like '../assets/projects/filename'
+const IMG_FILES = {
+  1: 'st. louis convent',
+  2: 'MAKERS TOWER JUHU',
+  3: 'SHRI GANESH VIDYA MANDIR',
+  4: 'aashram',
+  5: 'don bosco ',
+  6: 'enet house',
+  7: 'om palace',
+  8: 'st annes',
+  9: 'BHAVBANDHAN.jpg',
+  10: 'GAVDEVIKRUPA',
+  11: 'ANTHONY FIBER',
+  12: 'HAWARE GREEN PARK',
+  13: "HAWARE VRINDAVAN",
+  14: 'HAWARE SILICON TOWER',
+  15: 'John XXIII High School, Virar',
+  16: 'LIS INDIA CONSTRUCTION',
+  17: 'FIVE STAR ELECTRICALS',
+  18: 'gorai',
+  19: 'JAL JEEVAN TALASARI',
+  20: 'architectural design',
+  22: 'karwar bungalow',
+  23: 'private bunglow 2',
+  24: 'private bunglow',
+  25: 'GAJANAN ASHARAM',
+  26: 'BHUMI INFRATECH',
+}
+
 const IMG = Object.fromEntries(
-  Object.entries(IMG_FILES).map(([id, file]) => {
-    const key = `../assets/projects/${file}`
-    return [Number(id), ALL_IMAGES[key]]
-  })
+  Object.entries(IMG_FILES).map(([id, file]) => [Number(id), resolve(file)])
 )
 
 const PROJECTS = [
-  /* ── MUMBAI ── */
   { id: 1, area: 'Mumbai', name: 'St. Louis Convent School', location: 'Andheri (W), Mumbai', type: 'Institutional', scope: 'Auditorium hall civil work and interior work', color: '#333333' },
   { id: 2, area: 'Mumbai', name: 'Makers Tower', location: 'Juhu, Mumbai', type: 'Residential', scope: 'Aluminium sliding windows', color: '#444444' },
   { id: 3, area: 'Mumbai', name: 'Shri Ganesh Vidya Mandir', location: 'Dharavi, Mumbai', type: 'Institutional', scope: 'Civil work and interior work', color: '#333333' },
@@ -59,17 +69,14 @@ const PROJECTS = [
   { id: 9, area: 'Mumbai', name: 'Bhavbandhan', location: 'Borivali (W), Mumbai', type: 'Mixed-Use', scope: 'Commercial & residential building – civil work and finishing up to lock & key', color: '#444444', ongoing: true },
   { id: 10, area: 'Mumbai', name: 'Gavdevikrupa', location: 'Borivali (W), Mumbai', type: 'Mixed-Use', scope: 'Commercial & residential building – civil work and finishing up to lock & key', color: '#111111', ongoing: true },
   { id: 11, area: 'Mumbai', name: 'Anthony Fiber', location: 'Gorai, Borivali (W)', type: 'Industrial', scope: 'Factory – civil work and fabrication work', color: '#555555' },
-  /* ── NAVI MUMBAI ── */
   { id: 12, area: 'Navi Mumbai', name: 'Haware Green Park', location: 'Kamothe, Navi Mumbai', type: 'Residential', scope: 'Civil work, window seal, flooring', color: '#333333' },
   { id: 13, area: 'Navi Mumbai', name: "Haware's Vrindavan", location: 'New Panvel, Navi Mumbai', type: 'Residential', scope: 'Civil work', color: '#444444' },
   { id: 14, area: 'Navi Mumbai', name: 'Haware Silicon Tower', location: 'Vashi, Navi Mumbai', type: 'Commercial', scope: 'Interior work, flooring, tiling', color: '#111111' },
-  /* ── PALGHAR ── */
   { id: 15, area: 'Palghar', name: 'Jhon XXIII High School', location: 'Virar (W), Palghar', type: 'Institutional', scope: 'Fabrication work of prayer hall', color: '#333333' },
   { id: 16, area: 'Palghar', name: 'LIS India Construction', location: 'Mira Road (E), Thane', type: 'Mixed-Use', scope: 'Civil work and aluminium sliding windows', color: '#444444' },
   { id: 17, area: 'Palghar', name: 'Five Star Electricals', location: 'Virar (W), Palghar', type: 'Industrial', scope: 'Factory – civil work and fabrication work', color: '#555555' },
   { id: 18, area: 'Palghar', name: 'Shri Varad Vinayak Building', location: 'Vasai (E), Palghar', type: 'Mixed-Use', scope: 'Commercial & residential building – civil and interior', color: '#111111' },
   { id: 19, area: 'Palghar', name: 'Jal Jeevan Pradikaran', location: 'Talasari, Palghar', type: 'Infrastructure', scope: 'Water supply – pipe line & water reservoir', color: '#333333', ongoing: true },
-  /* ── OTHERS ── */
   { id: 20, area: 'Others', name: 'Magnum Construction', location: 'Khopoli, Raigad', type: 'Infrastructure', scope: 'Town planning – roads, plotting, civil work of club house & bungalows', color: '#333333' },
   { id: 21, area: 'Others', name: 'Panchal & Panchal Asso.', location: 'Vapi, Gujarat', type: 'Infrastructure', scope: 'Town planning – land levelling, road, plotting', color: '#444444' },
   { id: 22, area: 'Others', name: 'Private Bungalow', location: 'Karwar, Karnataka', type: 'Residential', scope: 'Civil work and interior work', color: '#111111' },
@@ -126,7 +133,6 @@ export default function Projects() {
   return (
     <div className="projects" ref={pageRef}>
 
-      {/* ── HERO ── */}
       <section className="projects-hero">
         <div className="projects-hero__bg" />
         <div className="container projects-hero__inner">
@@ -134,7 +140,7 @@ export default function Projects() {
             <span className="eyebrow__line" /><span className="eyebrow__text">Our Work</span>
           </div>
           <h1 className="projects-hero__title">
-            {['Every structure tells a'].map((w, i) => (
+            {['Every', 'structure', 'tells', 'a'].map((w, i) => (
               <span key={i} className="word">{w} </span>
             ))}
             <br />
@@ -146,16 +152,13 @@ export default function Projects() {
           </p>
           <div className="projects-hero__numbers">
             {[['26+', 'Projects'], ['6', 'States'], ['20+', 'Years'], ['100%', 'Commitment']].map(([n, l]) => (
-              <div className="stat-chip" key={l}>
-                <strong>{n}</strong>
-                <span>{l}</span>
-              </div>
+              <div className="stat-chip" key={l}><strong>{n}</strong><span>{l}</span></div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── MOBILE FILTER BAR ── */}
+      {/* MOBILE FILTER BAR */}
       <div className="projects-filters projects-filters--mobile">
         <div className="container projects-filters__inner">
           <div className="filter-group">
@@ -173,13 +176,12 @@ export default function Projects() {
             </select>
           </div>
           <button className={`filter-toggle${showOngoing ? ' active' : ''}`} onClick={() => setShowOngoing(v => !v)}>
-            <span className="filter-toggle__dot" />
-            Ongoing only
+            <span className="filter-toggle__dot" />Ongoing only
           </button>
         </div>
       </div>
 
-      {/* ── DESKTOP AREA BAR ── */}
+      {/* DESKTOP AREA BAR */}
       <div className="projects-area-bar projects-area-bar--desktop">
         <div className="container projects-area-bar__inner">
           {AREAS.map(a => (
@@ -188,38 +190,34 @@ export default function Projects() {
         </div>
       </div>
 
-      {/* ── GRID SECTION ── */}
+      {/* GRID */}
       <section className="projects-grid-section">
         <div className="container projects-layout">
-
-          {/* Sidebar */}
           <aside className="proj-sidebar">
             <p className="proj-sidebar__label">Type</p>
             <ul className="proj-type-list">
               {TYPES.map(t => (
                 <li key={t}>
-                  <button
-                    className={`proj-type-btn${activeType === t ? ' active' : ''}`}
-                    onClick={() => setActiveType(t)}
-                  >{t}</button>
+                  <button className={`proj-type-btn${activeType === t ? ' active' : ''}`} onClick={() => setActiveType(t)}>{t}</button>
                 </li>
               ))}
             </ul>
             <div className="proj-sidebar__divider" />
             <button className={`filter-toggle${showOngoing ? ' active' : ''}`} onClick={() => setShowOngoing(v => !v)}>
-              <span className="filter-toggle__dot" />
-              Ongoing only
+              <span className="filter-toggle__dot" />Ongoing only
             </button>
           </aside>
 
-          {/* Main grid */}
           <div className="proj-main">
             <p className="projects-count">{filtered.length} project{filtered.length !== 1 ? 's' : ''}</p>
             <div className="projects-grid" ref={gridRef}>
               {filtered.map(p => (
                 <div className="project-card" key={p.id}>
                   <div className="project-card__image">
-                    <ProjectImage id={p.id} name={p.name} type={p.type} color={p.color} />
+                    {IMG[p.id]
+                      ? <img src={IMG[p.id]} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                      : <FallbackImg name={p.name} type={p.type} color={p.color} />
+                    }
                     {p.ongoing && <span className="project-card__badge">Ongoing</span>}
                     <div className="project-card__image-overlay" />
                   </div>
@@ -238,14 +236,10 @@ export default function Projects() {
             {filtered.length === 0 && (
               <div className="projects-empty">
                 <span>No projects match your filters.</span>
-                <button
-                  className="btn btn--outline"
-                  onClick={() => { setActiveArea('All'); setActiveType('All Types'); setShowOngoing(false) }}
-                >Clear Filters</button>
+                <button className="btn btn--outline" onClick={() => { setActiveArea('All'); setActiveType('All Types'); setShowOngoing(false) }}>Clear Filters</button>
               </div>
             )}
           </div>
-
         </div>
       </section>
 
@@ -253,26 +247,6 @@ export default function Projects() {
   )
 }
 
-/* ── Project image: resolved via Vite glob, falls back to SVG ── */
-function ProjectImage({ id, name, type, color }) {
-  const [err, setErr] = useState(false)
-  const src = IMG[id]
-
-  if (src && !err) {
-    return (
-      <img
-        src={src}
-        alt={name}
-        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-        onError={() => setErr(true)}
-      />
-    )
-  }
-
-  return <FallbackImg name={name} type={type} color={color} />
-}
-
-/* ── SVG fallback ── */
 function FallbackImg({ name, type, color }) {
   const gid = `g-${(name || type).replace(/[^a-z0-9]/gi, '-')}`
   return (
