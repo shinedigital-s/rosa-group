@@ -42,10 +42,7 @@ export default function Navbar() {
               e.target.nextElementSibling.style.display = 'flex'
             }}
           />
-          <div className="nav__logo-fallback">
-            <span className="nav__logo-name">The ROSA Group</span>
-            <span className="nav__logo-tag">Delivering Expectations</span>
-          </div>
+
         </NavLink>
 
         <ul className="nav__links">
