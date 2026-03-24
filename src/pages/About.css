@@ -15,8 +15,8 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(20, 60, 120, .05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(20, 60, 120, .05) 1px, transparent 1px);
+    linear-gradient(rgba(12, 23, 42, .05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(12, 23, 42, .05) 1px, transparent 1px);
   background-size: 80px 80px;
 }
 
@@ -97,7 +97,7 @@
 
 .stat-box:hover {
   transform: translateX(8px);
-  box-shadow: -3px 0 0 #1a4a7a, 0 8px 32px rgba(26, 74, 122, .1);
+  box-shadow: -3px 0 0 #0C172A, 0 8px 32px rgba(12, 23, 42, .1);
 }
 
 .stat-box__num {
@@ -126,7 +126,7 @@
   top: 0;
   bottom: 0;
   width: 3px;
-  background: #1a4a7a;
+  background: #0C172A;
   opacity: 0.35;
 }
 
@@ -142,8 +142,8 @@
 ══════════════════════════════════════════ */
 .about-mission {
   padding: 100px 0 100px;
-  background: #f4f7fb;
-  border-top: 1px solid #dde6f0;
+  background: #eef2f7;
+  border-top: 1px solid #c2cad6;
 }
 
 .about-mission__eyebrow {
@@ -246,7 +246,7 @@
 .q-line {
   width: 3px;
   min-height: 260px;
-  background: #1a4a7a;
+  background: #0C172A;
   border-radius: 2px;
   flex-shrink: 0;
 }
@@ -386,7 +386,7 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #1a4a7a;
+  background: #0C172A;
   margin-top: 7px;
   flex-shrink: 0;
   opacity: 0.5;
@@ -403,9 +403,9 @@
 ══════════════════════════════════════════ */
 .about-values {
   padding: 120px 0;
-  background: #f0f4f9;
-  border-top: 1px solid #dde6f0;
-  border-bottom: 1px solid #dde6f0;
+  background: #eef2f7;
+  border-top: 1px solid #c2cad6;
+  border-bottom: 1px solid #c2cad6;
 }
 
 .about-values__header {
@@ -430,7 +430,7 @@
 
 .value-card:hover {
   transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 24px 56px rgba(0, 0, 0, .1);
+  box-shadow: 0 24px 56px rgba(12, 23, 42, .12);
 }
 
 .value-card__icon-wrap {
@@ -461,7 +461,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: var(--card-accent, #1a4a7a);
+  background: var(--card-accent, #0C172A);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.4s var(--ease);
