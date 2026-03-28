@@ -7,32 +7,34 @@
 }
 
 :root {
-  /* ── Navy palette ── */
-  --red: #0C172A;
-  /* primary accent = navy */
-  --red-deep: #060e1a;
-  /* hover state */
-  --navy: #2B3447;
-  /* secondary accent = medium navy */
+  /* ── ROSA Group logo palette ── */
+  --navy: #0C172A;
+  /* deep navy — ROSA Group text, primary dark */
+  --navy-mid: #2B3447;
+  /* slate blue — secondary, icon darks       */
+  --slate: #4A5568;
+  /* mid slate — body text on light            */
+  --grey-cool: #868D97;
+  /* cool grey — "The" text, icon mids        */
+  --grey-lite: #C4C8CE;
+  /* lightest icon — borders, dividers        */
+  --off-white: #F7F8FA;
+  /* page background — cool white             */
   --white: #FFFFFF;
-  --off-white: #eef1f5;
-  /* page bg — cool blue-tinted light */
-  --light: #e4e9f0;
-  /* section alt bg */
-  --border: #c2cad6;
-  --charcoal: #0C172A;
-  /* headings — navy */
-  --body: #2B3447;
-  /* body text */
+  --border: #DDE1E7;
+  /* light border                             */
+  --body: #3D4452;
+  /* readable body text                       */
   --muted: #868D97;
-  /* secondary text */
+  /* muted / secondary text                   */
+  --charcoal: #0C172A;
+  /* headings = navy                          */
 
-  /* legacy aliases used across pages */
-  --cream: #eef1f5;
-  --rosa-red: #0C172A;
-  --light-border: #c2cad6;
+  /* legacy aliases */
+  --cream: #F7F8FA;
+  --light: #EEF0F4;
+  --light-border: #DDE1E7;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Montserrat', sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -64,7 +66,7 @@ body {
 #cursor {
   width: 8px;
   height: 8px;
-  background: #0C172A;
+  background: var(--navy);
   z-index: 9999;
   transition: width .2s, height .2s;
   mix-blend-mode: multiply;
@@ -73,9 +75,9 @@ body {
 #cursor-ring {
   width: 32px;
   height: 32px;
-  border: 1.5px solid #0C172A;
+  border: 1.5px solid var(--navy);
   z-index: 9998;
-  opacity: .4;
+  opacity: .35;
   transition: width .3s var(--ease), height .3s var(--ease);
 }
 
@@ -88,7 +90,7 @@ body.hovering #cursor {
 body.hovering #cursor-ring {
   width: 52px;
   height: 52px;
-  opacity: .15;
+  opacity: .12;
 }
 
 a,
@@ -105,19 +107,16 @@ button {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border);
+  background: var(--grey-lite);
   border-radius: 9px;
 }
 
-/* ── Layout ── */
 .container {
   max-width: 1320px;
   margin: 0 auto;
   padding: 0 5vw;
 }
 
-/* ── Typography scale ── */
-/* All body text minimum 15px, subtext 16-17px */
 p {
   font-size: 16px;
   line-height: 1.9;
@@ -128,6 +127,7 @@ a {
   text-decoration: none;
 }
 
+/* ── Eyebrow ── */
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -138,7 +138,7 @@ a {
 .eyebrow__line {
   width: 36px;
   height: 1.5px;
-  background: #0C172A;
+  background: var(--navy-mid);
 }
 
 .eyebrow__text {
@@ -146,14 +146,14 @@ a {
   font-weight: 700;
   letter-spacing: .26em;
   text-transform: uppercase;
-  color: #0C172A;
+  color: var(--navy-mid);
 }
 
 h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  color: var(--charcoal);
+  color: var(--navy);
 }
 
 .display-title {
@@ -173,7 +173,7 @@ h3 {
 .section-title em,
 .display-title em {
   font-style: italic;
-  color: var(--charcoal);
+  color: var(--navy-mid);
 }
 
 /* ── Buttons ── */
@@ -193,26 +193,26 @@ h3 {
 }
 
 .btn--red {
-  background: #0C172A;
+  background: var(--navy);
   color: #fff;
-  border: 1.5px solid #0C172A;
+  border: 1.5px solid var(--navy);
 }
 
 .btn--red:hover {
-  background: #060e1a;
-  border-color: #060e1a;
+  background: var(--navy-mid);
+  border-color: var(--navy-mid);
   transform: translateY(-2px);
-  box-shadow: 0 14px 32px rgba(12, 23, 42, .25);
+  box-shadow: 0 14px 32px rgba(12, 23, 42, .22);
 }
 
 .btn--outline {
   background: transparent;
-  color: #0C172A;
-  border: 1.5px solid #0C172A;
+  color: var(--navy);
+  border: 1.5px solid var(--navy);
 }
 
 .btn--outline:hover {
-  background: #0C172A;
+  background: var(--navy);
   color: #fff;
 }
 
@@ -227,7 +227,6 @@ h3 {
   background: rgba(255, 255, 255, .08);
 }
 
-/* ── Column grid lines (reference style) ── */
 .col-grid {
   position: absolute;
   inset: 0;
@@ -239,10 +238,9 @@ h3 {
 }
 
 .col-grid__line {
-  border-right: 1px solid rgba(12, 23, 42, .04);
+  border-right: 1px solid rgba(12, 23, 42, .03);
 }
 
-/* ── GSAP reveal helpers ── */
 .gsap-hidden {
   opacity: 0;
 }
