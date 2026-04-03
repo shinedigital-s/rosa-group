@@ -50,7 +50,8 @@ body {
   font-family: var(--font-body);
   background: var(--off-white);
   color: var(--body);
-  overflow-x: hidden;
+  overflow-x: clip;
+  /* CHANGED: was overflow-x: hidden — 'hidden' creates a scroll container which breaks position:sticky on descendants */
   cursor: none;
 }
 
@@ -246,5 +247,6 @@ h3 {
 }
 
 main {
-  overflow-x: hidden;
+  overflow-x: clip;
+  /* CHANGED: was overflow-x: hidden — same reason as body above */
 }

@@ -6,14 +6,16 @@ import './Projects.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const ROOT = import.meta.glob('../assets/projects/*', { eager: true, as: 'url' })
-const SENT = import.meta.glob('../assets/projects/sent/*', { eager: true, as: 'url' })
+const ROOT = import.meta.glob('../assets/projects/*', { query: '?url', import: 'default', eager: true })
+const SENT = import.meta.glob('../assets/projects/sent/*', { query: '?url', import: 'default', eager: true })
 
 function resolve(filename) {
   if (!filename) return null
+  // Try exact match first (with and without sent/)
   const direct = SENT[`../assets/projects/sent/${filename}`]
     || ROOT[`../assets/projects/${filename}`]
   if (direct) return direct
+  // Try appending common extensions
   for (const ext of ['.jpg', '.jpeg', '.png', '.webp', '.JPG', '.JPEG', '.PNG']) {
     const url = SENT[`../assets/projects/sent/${filename}${ext}`]
       || ROOT[`../assets/projects/${filename}${ext}`]
@@ -22,32 +24,38 @@ function resolve(filename) {
   return null
 }
 
+// ─────────────────────────────────────────────────────────────
+// IMG_FILES — keys are project IDs, values are exact filenames
+// (without extension where the resolve() will auto-append it)
+// Cross-referenced against the actual folder screenshot:
+// ─────────────────────────────────────────────────────────────
 const IMG_FILES = {
-  1: 'st. louis convent',
-  2: 'MAKERS TOWER JUHU',
-  3: 'SHRI GANESH VIDYA MANDIR',
-  4: 'aashram',
-  5: 'don bosco ',
-  6: 'enet house',
-  7: 'om palace',
-  8: 'st annes',
-  9: 'BHAVBANDHAN.jpg',
-  10: 'GAVDEVIKRUPA',
-  11: 'ANTHONY FIBER',
-  12: 'HAWARE GREEN PARK',
-  13: 'HAWARE VRINDAVAN',
-  14: 'HAWARE SILICON TOWER',
-  15: 'John XXIII High School, Virar',
-  16: 'LIS INDIA CONSTRUCTION',
-  17: 'FIVE STAR ELECTRICALS',
-  18: 'gorai',
-  19: 'JAL JEEVAN TALASARI',
-  20: 'architectural design',
-  22: 'karwar bungalow',
-  23: 'private bunglow 2',
-  24: 'private bunglow',
-  25: 'GAJANAN ASHARAM',
-  26: 'BHUMI INFRATECH',
+  1: 'st. louis convent',          // st. louis convent (folder)
+  2: 'MAKERS TOWER JUHU',          // MAKERS TOWER JUHU
+  3: 'SHRI GANESH VIDYA MANDIR',   // SHRI GANESH VIDYA MANDIR  (was: ganesh vidya mandir → wrong)
+  4: 'Mariamma temple',                    // aashram (Mariamma Mata Temple = ashram area)
+  5: 'shelter don bosco',          // shelter don bosco
+  6: 'enet house',                 // enet house
+  7: 'Om palace',                  // Om palace
+  8: 'st annes',                   // st annes
+  9: 'BHAVBANDHAN.jpg',            // has explicit .jpg in filename
+  10: 'GAVDEVIK RUPA',              // GAVDEVIK RUPA (was: GAVDEVIKRUPA — space missing)
+  11: 'ANTHONY FIBER',              // ANTHONY FIBER (was: ANTHONY FIBER — matches)
+  12: 'HAWARE GREEN PARK',          // HAWARE GREEN PARK
+  13: 'HAWARE VRINDAVAN',           // HAWARE VRINDAVAN (was: HAWARE VRINDAVAN — matches)
+  14: 'HAWARE SILICON TOWER',       // HAWARE SILICON TOWER
+  15: 'John XXIII High School, Virar', // John XXIII High School, Virar
+  16: 'LIS INDIA CONSTRUCTION',     // LIS INDIA CONSTRUCTION
+  17: 'Five star',      // FIVE STAR ELECTRICALS (was: FIVE STAR ELECTRICALS — matches)
+  18: 'Varad nayak',                      // gorai (Shri Varad Vinayak = Gorai area)
+  19: 'JAL JEEVAN TALASARI',        // JAL JEEVAN TALASARI (was: JAL JEEVAN TALASARI — matches)
+  20: 'Magnum construction',       // architectural design (Magnum / town planning)
+  21: 'Panchal vapi',               // Panchal vapi — NEW: was missing entirely
+  22: 'bunglow (1)',                 // bunglow (1) — private bungalow Karwar
+  23: 'bunglow (2)',                 // bunglow (2) — private bungalow Satpala
+  24: 'bunglow (3)',                 // bunglow (3) — private bungalow Nandan
+  25: 'GAJANAN ASHARAM',            // GAJANAN ASHARAM (was: GAJANAN ASHARAM — matches)
+  26: 'BHUMI INFRATECH',            // BHUMI INFRATECH (was: BHUMI INFRATECH — matches)
 }
 
 const IMG = Object.fromEntries(

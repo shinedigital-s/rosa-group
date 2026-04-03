@@ -1,5 +1,5 @@
 /* ══════════════════════════════
-   ROSA GROUP — DESIGN TOKENS
+   ROSA GROUP — TOKENS
 ══════════════════════════════ */
 :root {
   --navy: #1E2D4E;
@@ -7,29 +7,20 @@
   --slate: #6B82A0;
   --steel-light: #9BAAB8;
   --cream: #F5F2EE;
-  --parchment: #EAE6E0;
-
   --accent-gold: #C8A84B;
   --accent-coral: #E8584A;
   --accent-sky: #5BA3CC;
-  --accent-mint: #4A8C78;
-
   --text-dark: #0C172A;
   --text-mid: #2B3447;
   --text-muted: #6B82A0;
-
   --bg-hero: #EEF3F8;
   --bg-white: #FFFFFF;
   --bg-light: #F0F4F8;
-  --bg-section: #EAE6E0;
   --border: #C2CED8;
-
   --ease: cubic-bezier(.4, 0, .2, 1);
 }
 
-/* ══════════════════════════════
-   HERO
-══════════════════════════════ */
+/* ══ HERO ══ */
 .hero {
   position: relative;
   margin-top: 76px;
@@ -41,11 +32,10 @@
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse 70% 60% at 80% 20%, rgba(200, 168, 75, .07) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 50% at 10% 80%, rgba(91, 163, 204, .06) 0%, transparent 60%);
   pointer-events: none;
   z-index: 0;
+  background: radial-gradient(ellipse 70% 60% at 80% 20%, rgba(200, 168, 75, .07) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 10% 80%, rgba(91, 163, 204, .06) 0%, transparent 60%);
 }
 
 .hero-text {
@@ -66,13 +56,11 @@
 .hero-left {
   display: flex;
   flex-direction: column;
-  position: relative;
   z-index: 2;
   align-self: center;
   padding: 60px 0;
 }
 
-/* Eyebrow */
 .eyebrow {
   display: flex;
   align-items: center;
@@ -100,8 +88,8 @@
   font-family: var(--font-display);
   font-size: clamp(3.8rem, 5vw, 6rem);
   font-weight: 300;
-  line-height: 0.95;
-  letter-spacing: -0.03em;
+  line-height: .95;
+  letter-spacing: -.03em;
   color: var(--navy);
   margin: 1.4rem 0 1.8rem;
 }
@@ -123,7 +111,7 @@
 
 .hero-strong {
   font-weight: 700;
-  background: linear-gradient(to right, var(--accent-gold) 0%, var(--accent-gold) 100%);
+  background: linear-gradient(to right, var(--accent-gold), var(--accent-gold));
   background-repeat: no-repeat;
   background-position: 0 95%;
   background-size: 100% 4px;
@@ -178,7 +166,6 @@
   color: var(--text-muted);
 }
 
-/* ── Hero image card ── */
 .hero-img {
   position: relative;
   opacity: 0;
@@ -186,18 +173,13 @@
   overflow: hidden;
   align-self: stretch;
   min-height: 440px;
-  box-shadow:
-    0 32px 80px rgba(30, 45, 78, .2),
-    0 8px 24px rgba(30, 45, 78, .12),
-    0 0 0 1px rgba(200, 168, 75, .18);
-  /* Enable smooth 3D tilt */
+  box-shadow: 0 32px 80px rgba(30, 45, 78, .2), 0 8px 24px rgba(30, 45, 78, .12), 0 0 0 1px rgba(200, 168, 75, .18);
   transform-style: preserve-3d;
-  transition: transform 0.25s cubic-bezier(.22, 1, .36, 1), box-shadow 0.25s;
+  transition: transform .25s cubic-bezier(.22, 1, .36, 1), box-shadow .25s;
   cursor: crosshair;
   will-change: transform;
 }
 
-/* Shimmer border rim */
 .hero-img::before {
   content: '';
   position: absolute;
@@ -208,19 +190,13 @@
   pointer-events: none;
 }
 
-/* Gold glow that intensifies on hover */
 .hero-img:hover {
-  box-shadow:
-    0 40px 100px rgba(30, 45, 78, .28),
-    0 12px 32px rgba(30, 45, 78, .16),
-    0 0 0 1px rgba(200, 168, 75, .35),
-    0 0 60px rgba(200, 168, 75, .08);
+  box-shadow: 0 40px 100px rgba(30, 45, 78, .28), 0 12px 32px rgba(30, 45, 78, .16), 0 0 0 1px rgba(200, 168, 75, .35), 0 0 60px rgba(200, 168, 75, .08);
 }
 
 .hero-img-inner {
   position: absolute;
   inset: 0;
-  /* SVG layers transition independently */
 }
 
 .hero-img-inner svg {
@@ -229,12 +205,10 @@
   display: block;
 }
 
-/* SVG layer parallax transitions */
 .hero-img-inner g[style] {
-  transition: transform 0.12s ease-out;
+  transition: transform .12s ease-out;
 }
 
-/* Badge */
 .hero-badge {
   position: absolute;
   bottom: 22px;
@@ -249,7 +223,7 @@
   gap: 12px;
   box-shadow: 0 8px 28px rgba(30, 45, 78, .18);
   z-index: 7;
-  transition: transform 0.3s var(--ease);
+  transition: transform .3s var(--ease);
 }
 
 .hero-img:hover .hero-badge {
@@ -284,7 +258,6 @@
   margin-top: 2px;
 }
 
-/* Scroll hint */
 .hero-scroll {
   position: absolute;
   bottom: 2.4rem;
@@ -300,7 +273,7 @@
 
 @keyframes fadeUp {
   to {
-    opacity: .45;
+    opacity: .45
   }
 }
 
@@ -331,9 +304,7 @@
   color: var(--text-muted);
 }
 
-/* ══════════════════════════════
-   BUTTONS
-══════════════════════════════ */
+/* ══ BUTTONS ══ */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -375,19 +346,6 @@
   border-color: var(--navy);
 }
 
-.btn--gold {
-  background: var(--accent-gold);
-  color: var(--navy);
-  border: 1.5px solid var(--accent-gold);
-}
-
-.btn--gold:hover {
-  background: #B89438;
-  border-color: #B89438;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(200, 168, 75, .3);
-}
-
 .btn--light {
   background: #fff;
   color: var(--navy);
@@ -411,9 +369,7 @@
   background: rgba(200, 168, 75, .08);
 }
 
-/* ══════════════════════════════
-   TICKER
-══════════════════════════════ */
+/* ══ TICKER ══ */
 .ticker {
   background: var(--navy);
   overflow: hidden;
@@ -463,9 +419,7 @@
   flex-shrink: 0;
 }
 
-/* ══════════════════════════════
-   INTRO
-══════════════════════════════ */
+/* ══ INTRO ══ */
 .intro {
   padding: 130px 0;
   background: var(--bg-white);
@@ -507,10 +461,7 @@
   border-radius: 6px;
   overflow: hidden;
   height: 480px;
-  box-shadow:
-    0 32px 80px rgba(30, 45, 78, .15),
-    0 0 0 1px rgba(200, 168, 75, .15);
-  /* Buildings inside use transform-box, so need this */
+  box-shadow: 0 32px 80px rgba(30, 45, 78, .15), 0 0 0 1px rgba(200, 168, 75, .15);
   isolation: isolate;
 }
 
@@ -520,32 +471,55 @@
   height: 100%;
 }
 
-/* Scroll-triggered building rise */
 .intro-build {
   transform-box: fill-box;
   transform-origin: bottom;
 }
 
-/* ══════════════════════════════
-   SERVICES
-══════════════════════════════ */
+/* ══════════════════════════════════════════════════
+   SERVICES — sticky scroll
+   CRITICAL: absolutely NO overflow:hidden on:
+     .svc, .svc-inner
+   These must stay overflow:visible for sticky to work.
+══════════════════════════════════════════════════ */
 .svc {
-  padding: 120px 0;
-  background: var(--bg-light);
+  background: #0C172A;
+  /* NO overflow:hidden */
 }
 
-.svc__header {
-  margin-bottom: 64px;
+.svc-inner {
+  display: flex;
+  align-items: flex-start;
+  /* NO overflow:hidden */
+}
+
+/* ── LEFT sticky column ── */
+.svc-sticky {
+  flex: 0 0 48%;
+  position: sticky;
+  top: 76px;
+  height: calc(100vh - 76px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 6% 60px 7%;
+  box-sizing: border-box;
+  border-right: 1px solid rgba(200, 168, 75, .1);
+  /* NO overflow:hidden */
+}
+
+.svc-sticky__head {
+  margin-bottom: 52px;
 }
 
 .svc__title {
   font-family: var(--font-display);
-  font-size: clamp(2.2rem, 3vw, 3.2rem);
+  font-size: clamp(2.2rem, 2.8vw, 3.4rem);
   font-weight: 300;
-  line-height: 1.1;
+  line-height: 1.05;
   letter-spacing: -.02em;
-  color: var(--navy);
-  margin-top: .8rem;
+  color: #fff;
+  margin: .8rem 0 0;
 }
 
 .svc__title em {
@@ -553,75 +527,142 @@
   color: var(--accent-sky);
 }
 
-.svc-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  overflow: hidden;
+/* Service points list */
+.svc-points {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
-.svc-card {
-  background: var(--bg-white);
-  padding: 44px 38px;
+.svc-point {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .07);
   position: relative;
-  transition: background .3s;
-  --card-accent: var(--accent-gold);
+  cursor: default;
+  /* transition for active state */
+  transition: padding-left .4s var(--ease);
 }
 
-.svc-card:hover {
-  background: var(--cream);
+.svc-point:first-child {
+  border-top: 1px solid rgba(255, 255, 255, .07);
 }
 
-.svc-card__num {
-  display: block;
-  font-family: var(--font-display);
-  font-size: 2.8rem;
-  font-weight: 700;
-  color: var(--card-accent);
-  opacity: .18;
-  line-height: 1;
-  margin-bottom: 1.2rem;
-  transition: opacity .3s;
+/* Active point — driven by IntersectionObserver via GSAP ScrollTrigger */
+/* We highlight using a CSS class toggled via JS, OR we style via scroll position */
+/* Since GSAP drives visibility of building floors, we use the same observer
+   to add .is-active class to each point */
+.svc-point.is-active {
+  padding-left: 14px;
 }
 
-.svc-card:hover .svc-card__num {
-  opacity: .3;
+.svc-point.is-active .svc-point__num {
+  color: var(--pt-accent, var(--accent-gold));
 }
 
-.svc-card__title {
-  font-family: var(--font-display);
-  font-size: 1.45rem;
-  font-weight: 600;
-  color: var(--navy);
-  margin-bottom: .7rem;
+.svc-point.is-active .svc-point__title {
+  color: #fff;
+  opacity: 1;
 }
 
-.svc-card__desc {
-  font-size: 14px;
-  line-height: 1.85;
-  color: var(--text-mid);
+.svc-point.is-active .svc-point__line {
+  transform: scaleX(1);
 }
 
-.svc-card__line {
+/* Left accent bar — animates in on active */
+.svc-point::before {
+  content: '';
   position: absolute;
+  left: 0;
+  top: 0;
   bottom: 0;
-  left: 38px;
-  width: 0;
-  height: 3px;
-  background: var(--card-accent);
-  transition: width .4s var(--ease);
+  width: 3px;
+  background: var(--pt-accent, var(--accent-gold));
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform .45s var(--ease);
+  border-radius: 1px;
 }
 
-.svc-card:hover .svc-card__line {
-  width: calc(100% - 76px);
+.svc-point.is-active::before {
+  transform: scaleY(1);
 }
 
-/* ══════════════════════════════
-   STATS
-══════════════════════════════ */
+.svc-point__num {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: rgba(255, 255, 255, .2);
+  flex-shrink: 0;
+  width: 28px;
+  transition: color .4s;
+}
+
+.svc-point__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  font-weight: 300;
+  color: rgba(255, 255, 255, .28);
+  letter-spacing: -.01em;
+  line-height: 1.1;
+  flex: 1;
+  transition: color .4s, opacity .4s;
+}
+
+/* Bottom underline on active */
+.svc-point__line {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  background: var(--pt-accent, var(--accent-gold));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .5s var(--ease);
+  opacity: .5;
+}
+
+/* ── RIGHT building column ──
+   This is the column that is TALLER than the viewport,
+   causing the document to scroll while the left stays stuck.
+   padding-bottom: 50vh so the last point can reach the active zone.
+*/
+.svc-building-col {
+  flex: 1;
+  padding: 60px 5% 50vh 5%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  /* NO overflow:hidden */
+}
+
+.svc-building-wrap {
+  width: 100%;
+  max-width: 440px;
+  /* overflow:hidden is SAFE here — leaf node, not scroll ancestor */
+  overflow: hidden;
+  border-radius: 12px;
+  position: sticky;
+  top: calc(76px + 40px);
+  box-shadow:
+    0 0 0 1px rgba(200, 168, 75, .12),
+    0 32px 80px rgba(0, 0, 0, .5);
+}
+
+.svc-building-wrap svg {
+  display: block;
+  width: 100%;
+}
+
+/* ══ STATS ══ */
 .stats {
   background: var(--bg-white);
   padding: 90px 0;
@@ -659,7 +700,6 @@
   gap: 10px;
   padding: 2rem 1rem;
   border-right: 1px solid var(--border);
-  position: relative;
 }
 
 .stat:last-child {
@@ -691,9 +731,7 @@
   color: var(--text-muted);
 }
 
-/* ══════════════════════════════
-   CTA
-══════════════════════════════ */
+/* ══ CTA ══ */
 .cta {
   background: var(--navy);
   padding: 100px 0;
@@ -743,11 +781,6 @@
   letter-spacing: -.02em;
 }
 
-.cta__title em {
-  font-style: normal;
-  color: var(--accent-gold);
-}
-
 .cta__sub {
   color: rgba(255, 255, 255, .4);
   font-size: 15px;
@@ -760,9 +793,7 @@
   flex-wrap: wrap;
 }
 
-/* ══════════════════════════════
-   CONTAINER
-══════════════════════════════ */
+/* ══ CONTAINER ══ */
 .container {
   width: 100%;
   max-width: 1280px;
@@ -771,10 +802,8 @@
   box-sizing: border-box;
 }
 
-/* ══════════════════════════════
-   RESPONSIVE
-══════════════════════════════ */
-@media (max-width: 1100px) {
+/* ══ RESPONSIVE ══ */
+@media (max-width:1100px) {
   .intro__grid {
     grid-template-columns: 1fr;
     gap: 3rem;
@@ -784,20 +813,48 @@
     height: 320px;
   }
 
-  .svc-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
   .stats__grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 860px) {
-  .hero {
-    margin-top: 76px;
+@media (max-width:900px) {
+
+  /* Stack vertically on tablet/mobile */
+  .svc-inner {
+    flex-direction: column;
   }
 
+  .svc-sticky {
+    position: relative;
+    top: auto;
+    height: auto;
+    flex: none;
+    width: 100%;
+    padding: 60px 6vw 40px;
+    border-right: none;
+    border-bottom: 1px solid rgba(200, 168, 75, .1);
+  }
+
+  .svc-building-col {
+    width: 100%;
+    padding: 40px 10vw 80px;
+    justify-content: center;
+  }
+
+  .svc-building-wrap {
+    position: relative;
+    top: auto;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .svc-point__title {
+    font-size: clamp(1.3rem, 4vw, 1.8rem);
+  }
+}
+
+@media (max-width:860px) {
   .hero-text {
     grid-template-columns: 1fr;
     min-height: auto;
@@ -815,7 +872,6 @@
     align-self: auto;
     opacity: 1 !important;
     z-index: 0;
-    /* disable tilt on mobile */
     transform: none !important;
     transition: none;
     cursor: default;
@@ -825,10 +881,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom,
-        rgba(238, 243, 248, .93) 0%,
-        rgba(238, 243, 248, .84) 50%,
-        rgba(238, 243, 248, .65) 100%);
+    background: linear-gradient(to bottom, rgba(238, 243, 248, .93) 0%, rgba(238, 243, 248, .84) 50%, rgba(238, 243, 248, .65) 100%);
     z-index: 1;
   }
 
@@ -843,8 +896,6 @@
     display: inline-flex;
     margin-top: 2rem;
     align-self: flex-start;
-    bottom: auto;
-    left: auto;
     backdrop-filter: none;
     background: rgba(255, 255, 255, .92);
   }
@@ -854,13 +905,9 @@
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width:640px) {
   .hero-headline {
     font-size: clamp(3rem, 12vw, 4.5rem);
-  }
-
-  .svc-grid {
-    grid-template-columns: 1fr;
   }
 
   .stats__grid {

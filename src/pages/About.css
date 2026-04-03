@@ -45,10 +45,9 @@
   color: var(--accent-sky, #5BA3CC);
 }
 
-/* ══ 1. HERO — plain, light, clean ══ */
+/* ══ 1. HERO ══ */
 .about-hero {
   background: #EEF3F8;
-  /* same light bg as the main site hero */
   padding: 160px 0 110px;
   margin-top: 76px;
   border-bottom: 1px solid #D6DFE8;
@@ -58,7 +57,6 @@
   position: relative;
 }
 
-/* Eyebrow line uses gold */
 .about-hero__inner .eyebrow__line {
   background: var(--accent-gold, #C8A84B);
 }
@@ -219,7 +217,6 @@
 .mission-bento__wall {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 2fr;
-  grid-template-rows: auto auto auto;
   gap: 8px;
 }
 
@@ -227,14 +224,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-body);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   border-radius: 8px;
   will-change: transform, opacity;
-  transition: transform 0.22s var(--ease, cubic-bezier(.4, 0, .2, 1));
+  transition: transform 0.22s;
 }
 
 .brick--small {
@@ -335,7 +331,7 @@
   gap: 3.5rem;
   padding: 34px 0;
   border-bottom: 1px solid var(--border, #C2CED8);
-  transition: padding-left 0.4s var(--ease, cubic-bezier(.4, 0, .2, 1)), background 0.3s;
+  transition: padding-left 0.4s, background 0.3s;
   cursor: default;
 }
 
@@ -352,7 +348,6 @@
   line-height: 1;
   flex-shrink: 0;
   width: 60px;
-  color: var(--navy-mid, #3D5278);
   opacity: 0.35;
 }
 
@@ -367,7 +362,7 @@
 .philosophy-item__arrow {
   color: var(--navy-mid, #3D5278);
   opacity: 0;
-  transition: opacity 0.3s, transform 0.3s var(--ease, cubic-bezier(.4, 0, .2, 1));
+  transition: opacity 0.3s, transform 0.3s;
   flex-shrink: 0;
 }
 
@@ -407,7 +402,7 @@
   padding: 28px 0;
   border-bottom: 1px solid var(--border, #C2CED8);
   align-items: flex-start;
-  transition: padding-left 0.35s var(--ease, cubic-bezier(.4, 0, .2, 1));
+  transition: padding-left 0.35s;
 }
 
 .vision-item:first-child {
@@ -422,7 +417,6 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: var(--navy-mid, #3D5278);
   margin-top: 7px;
   flex-shrink: 0;
 }
@@ -472,7 +466,7 @@
   padding: 44px 32px;
   position: relative;
   overflow: hidden;
-  transition: transform 0.35s var(--ease, cubic-bezier(.4, 0, .2, 1)), box-shadow 0.35s, background 0.3s;
+  transition: transform 0.35s, box-shadow 0.35s, background 0.3s;
 }
 
 .value-card:hover {
@@ -512,72 +506,430 @@
   background: #9BAAB8;
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.4s var(--ease, cubic-bezier(.4, 0, .2, 1));
+  transition: transform 0.4s;
 }
 
 .value-card:hover .value-card__bottom-line {
   transform: scaleX(1);
 }
 
-/* ══ 7. APPROACH ══ */
+/* ══════════════════════════════════════════════════════════════
+   7. APPROACH — sticky scroll
+   KEY: No overflow:hidden on .about-approach or .approach-desktop
+   ══════════════════════════════════════════════════════════════ */
+
 .about-approach {
-  padding: 120px 0;
-  background: var(--bg-light, #F0F4F8);
+  background: #F8FAFB;
+  /* CRITICAL: absolutely no overflow:hidden or overflow:auto here.
+     Either will destroy position:sticky on child elements. */
+}
+
+/* ─── DESKTOP layout ─── */
+.approach-desktop {
+  display: flex;
+  align-items: flex-start;
+  /* CRITICAL: No overflow:hidden — kills position:sticky on children.
+     The section must be as tall as the cards column so scrolling happens
+     through the document, not inside a clipped container. */
+}
+
+/* LEFT sticky column */
+.approach-desktop__sticky {
+  /* flex-basis 46%, does NOT shrink */
+  flex: 0 0 46%;
+
+  /* THE sticky rule */
+  position: sticky;
+  top: 76px;
+  /* height of navbar */
+
+  /* Exactly one viewport minus navbar tall — never taller, never shorter.
+     This ensures the element doesn't overflow its own height, which is
+     required for sticky to work correctly. */
+  height: calc(100vh - 76px);
+
+  /* Internal layout */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 32px;
+  padding: 60px 52px 60px 7%;
+  box-sizing: border-box;
+
+  background: #fff;
+  border-right: 1px solid var(--border, #D6DFE8);
+
+  /* CRITICAL: no overflow:hidden or overflow:auto — breaks sticky */
+}
+
+.approach-desktop__eyebrow .eyebrow {
+  margin-bottom: 0.5rem;
+}
+
+.approach-desktop__eyebrow .section-title {
+  font-size: clamp(1.9rem, 2.4vw, 2.8rem);
+  margin: 0.5rem 0 1rem;
 }
 
 .approach-lead {
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.9;
   color: var(--text-mid, #2B3447);
-  max-width: 640px;
-  margin-bottom: 56px;
+  margin: 0;
 }
 
-.approach-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--border, #C2CED8);
-  border: 1px solid var(--border, #C2CED8);
-  border-radius: 6px;
+/* Image — fills remaining vertical space in the sticky column */
+.approach-desktop__img-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  /* allows flex child to shrink */
+  border-radius: 10px;
+  /* CRITICAL: overflow:hidden here is fine — it's a leaf node,
+     not a scroll ancestor. Sticky is already established on the
+     parent; clipping the image inside it is safe. */
+  overflow: hidden;
+  background: var(--navy, #1E2D4E);
+  box-shadow: 0 12px 40px rgba(30, 45, 78, 0.16);
+}
+
+.approach-desktop__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+
+.approach-desktop__img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top,
+      rgba(12, 23, 42, 0.80) 0%,
+      rgba(12, 23, 42, 0.28) 55%,
+      transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.approach-desktop__img-label {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  right: 24px;
+  z-index: 2;
+}
+
+.approach-desktop__img-num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 4.5vw, 5rem);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.09);
+  line-height: 1;
+  transition: opacity 0.2s ease;
+}
+
+.approach-desktop__img-name {
+  display: block;
+  color: #C8A84B;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  font-size: 11px;
+  transition: opacity 0.2s ease;
+}
+
+/* RIGHT scrollable cards column
+   This is the element that actually scrolls — the document scrolls past it,
+   and the sticky left column stays pinned while this column moves. */
+.approach-desktop__cards {
+  flex: 1;
+  /* Top padding: visually centres the first card against the sticky panel.
+     Bottom padding: 50vh so the last card has room to become "active"
+     before the sticky section ends. Without this, the last card can
+     never reach the centre of the viewport. */
+  padding: 80px 7% 50vh 7%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-sizing: border-box;
+  /* CRITICAL: no overflow:hidden or overflow:auto — the document scroll
+     (not a nested scroll) is what drives the sticky behaviour. */
+}
+
+/* Step card */
+.approach-card {
+  border: 1px solid var(--border, #D6DFE8);
+  border-radius: 10px;
+  background: #fff;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+  cursor: default;
+  position: relative;
   overflow: hidden;
 }
 
-.approach-block {
-  background: var(--bg-white, #fff);
-  padding: 44px 36px;
-  border-left: 3px solid transparent;
-  transition: background 0.3s, border-color 0.3s;
+.approach-card--active {
+  border-color: var(--navy-mid, #3D5278);
+  box-shadow: 0 8px 32px rgba(30, 45, 78, 0.10);
+  transform: translateX(6px);
 }
 
-.approach-block:hover {
-  background: var(--bg-light, #F0F4F8);
-  border-left-color: var(--navy-mid, #3D5278);
+.approach-card__inner {
+  padding: 32px 36px;
 }
 
-.approach-block__step {
-  display: block;
+.approach-card__num-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.approach-card__num {
   font-family: var(--font-display);
-  font-size: 3.2rem;
+  font-size: 2.8rem;
   font-weight: 700;
+  color: rgba(30, 45, 78, 0.10);
   line-height: 1;
-  opacity: 0.15;
-  margin-bottom: 1rem;
-  color: var(--navy, #1E2D4E);
+  letter-spacing: -0.02em;
+  transition: color 0.4s ease;
 }
 
-.approach-block h3 {
+.approach-card--active .approach-card__num {
+  color: rgba(30, 45, 78, 0.18);
+}
+
+.approach-card__tag {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(30, 45, 78, 0.32);
+  border: 1px solid rgba(30, 45, 78, 0.14);
+  padding: 5px 13px;
+  border-radius: 2px;
+  transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+.approach-card--active .approach-card__tag {
+  background: var(--navy, #1E2D4E);
+  border-color: var(--navy, #1E2D4E);
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.approach-card__title {
   font-family: var(--font-display);
-  font-size: 1.35rem;
-  font-weight: 600;
-  color: var(--navy, #1E2D4E);
-  margin-bottom: 0.8rem;
+  font-size: clamp(1.4rem, 1.8vw, 1.9rem);
+  font-weight: 300;
+  color: rgba(30, 45, 78, 0.28);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 0 0 12px;
+  transition: color 0.4s ease;
 }
 
-.approach-block p {
+.approach-card--active .approach-card__title {
+  color: var(--navy, #1E2D4E);
+}
+
+.approach-card__desc {
   font-size: 15px;
-  line-height: 1.85;
+  line-height: 1.9;
+  color: rgba(30, 45, 78, 0.25);
+  margin: 0;
+  transition: color 0.45s ease;
+}
+
+.approach-card--active .approach-card__desc {
   color: var(--text-mid, #2B3447);
+}
+
+/* Left accent bar — animates in on active card */
+.approach-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #C8A84B;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.4s ease;
+  border-radius: 0 2px 2px 0;
+}
+
+.approach-card--active::before {
+  transform: scaleY(1);
+}
+
+/* ─── MOBILE layout ─── */
+.approach-mobile {
+  display: none;
+  padding: 72px 6% 80px;
+  box-sizing: border-box;
+}
+
+.approach-mobile .eyebrow {
+  margin-bottom: 0.5rem;
+}
+
+.approach-mobile .section-title {
+  margin: 0.5rem 0 1.2rem;
+}
+
+.approach-mobile .approach-lead {
+  margin-bottom: 52px;
+}
+
+/* Mobile roadmap */
+.approach-roadmap {
+  position: relative;
+  padding-left: 16px;
+}
+
+.approach-spine-track {
+  position: absolute;
+  left: 36px;
+  top: 20px;
+  bottom: 20px;
+  width: 2px;
+  background: rgba(30, 45, 78, 0.10);
+  border-radius: 2px;
+}
+
+.approach-spine-fill {
+  position: absolute;
+  left: 36px;
+  top: 20px;
+  width: 2px;
+  background: linear-gradient(to bottom, #C8A84B, #a8863a);
+  height: 0%;
+  max-height: calc(100% - 40px);
+  border-radius: 2px;
+  transition: height 0.55s cubic-bezier(.4, 0, .2, 1);
+}
+
+.approach-step-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+  padding-bottom: 56px;
+  opacity: 0.25;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.approach-step-row:last-child {
+  padding-bottom: 0;
+}
+
+.approach-step-row--active {
+  opacity: 1;
+  transform: translateX(4px);
+}
+
+.approach-node {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--border, #D6DFE8);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 2;
+  position: relative;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(30, 45, 78, .30);
+  letter-spacing: 0.05em;
+  transition: background 0.4s, border-color 0.4s, box-shadow 0.4s, color 0.35s;
+}
+
+.approach-node--active {
+  background: var(--navy, #1E2D4E);
+  border-color: var(--navy, #1E2D4E);
+  box-shadow: 0 0 0 7px rgba(30, 45, 78, 0.09);
+  color: #fff;
+}
+
+.approach-node--done {
+  background: rgba(200, 168, 75, 0.10);
+  border-color: #C8A84B;
+  color: #C8A84B;
+}
+
+.approach-step-content {
+  flex: 1;
+  padding-top: 8px;
+}
+
+.approach-step-micro {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: rgba(30, 45, 78, .22);
+  margin: 0 0 8px;
+  transition: color 0.4s;
+}
+
+.approach-step-micro--lit {
+  color: #C8A84B;
+}
+
+.approach-step-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 5vw, 1.8rem);
+  font-weight: 300;
+  color: rgba(30, 45, 78, .18);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0 0 10px;
+  transition: color 0.4s;
+}
+
+.approach-step-title--lit {
+  color: var(--navy, #1E2D4E);
+}
+
+.approach-step-desc {
+  font-size: 15px;
+  line-height: 1.9;
+  color: rgba(30, 45, 78, .16);
+  margin: 0 0 16px;
+  transition: color 0.45s;
+}
+
+.approach-step-desc--lit {
+  color: var(--text-mid, #2B3447);
+}
+
+.approach-step-tag {
+  display: inline-block;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(30, 45, 78, .20);
+  border: 1px solid rgba(30, 45, 78, .10);
+  padding: 5px 13px;
+  border-radius: 2px;
+  transition: background 0.35s, color 0.35s, border-color 0.35s;
+}
+
+.approach-step-tag--lit {
+  background: var(--navy, #1E2D4E);
+  border-color: var(--navy, #1E2D4E);
+  color: rgba(255, 255, 255, .75);
+}
+
+.approach-progress-track {
+  display: none;
 }
 
 /* ══ RESPONSIVE ══ */
@@ -596,9 +948,17 @@
     grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
+}
 
-  .approach-grid {
-    grid-template-columns: 1fr 1fr;
+@media (max-width: 900px) {
+
+  /* Switch to mobile roadmap, hide desktop layout */
+  .approach-desktop {
+    display: none;
+  }
+
+  .approach-mobile {
+    display: block;
   }
 }
 
@@ -643,10 +1003,6 @@
 
 @media (max-width: 640px) {
   .values-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .approach-grid {
     grid-template-columns: 1fr;
   }
 
