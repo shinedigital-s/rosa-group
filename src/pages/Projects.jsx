@@ -3,6 +3,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ProjectsHero from './Projectshero'
 import './Projects.css'
+import fallbackBg from '../assets/Untitled design (2).png'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -11,11 +12,9 @@ const SENT = import.meta.glob('../assets/projects/sent/*', { query: '?url', impo
 
 function resolve(filename) {
   if (!filename) return null
-  // Try exact match first (with and without sent/)
   const direct = SENT[`../assets/projects/sent/${filename}`]
     || ROOT[`../assets/projects/${filename}`]
   if (direct) return direct
-  // Try appending common extensions
   for (const ext of ['.jpg', '.jpeg', '.png', '.webp', '.JPG', '.JPEG', '.PNG']) {
     const url = SENT[`../assets/projects/sent/${filename}${ext}`]
       || ROOT[`../assets/projects/${filename}${ext}`]
@@ -24,38 +23,33 @@ function resolve(filename) {
   return null
 }
 
-// ─────────────────────────────────────────────────────────────
-// IMG_FILES — keys are project IDs, values are exact filenames
-// (without extension where the resolve() will auto-append it)
-// Cross-referenced against the actual folder screenshot:
-// ─────────────────────────────────────────────────────────────
 const IMG_FILES = {
-  1: 'st. louis convent',          // st. louis convent (folder)
-  2: 'MAKERS TOWER JUHU',          // MAKERS TOWER JUHU
-  3: 'SHRI GANESH VIDYA MANDIR',   // SHRI GANESH VIDYA MANDIR  (was: ganesh vidya mandir → wrong)
-  4: 'Mariamma temple',                    // aashram (Mariamma Mata Temple = ashram area)
-  5: 'shelter don bosco',          // shelter don bosco
-  6: 'enet house',                 // enet house
-  7: 'Om palace',                  // Om palace
-  8: '2',                   // st annes
-  9: 'BHAVBANDHAN.jpg',            // has explicit .jpg in filename
-  10: 'GAVDEVIK RUPA',              // GAVDEVIK RUPA (was: GAVDEVIKRUPA — space missing)
-  11: 'ANTHONY FIBER',              // ANTHONY FIBER (was: ANTHONY FIBER — matches)
-  12: 'HAWARE GREEN PARK',          // HAWARE GREEN PARK
-  13: 'HAWARE VRINDAVAN',           // HAWARE VRINDAVAN (was: HAWARE VRINDAVAN — matches)
-  14: 'HAWARE SILICON TOWER',       // HAWARE SILICON TOWER
-  15: 'John XXIII High School, Virar', // John XXIII High School, Virar
-  16: 'LIS INDIA CONSTRUCTION',     // LIS INDIA CONSTRUCTION
-  17: 'Five star',      // FIVE STAR ELECTRICALS (was: FIVE STAR ELECTRICALS — matches)
-  18: 'Varad nayak',                      // gorai (Shri Varad Vinayak = Gorai area)
-  19: 'JAL JEEVAN TALASARI',        // JAL JEEVAN TALASARI (was: JAL JEEVAN TALASARI — matches)
-  20: 'Magnum construction',       // architectural design (Magnum / town planning)
-  21: 'Panchal vapi',               // Panchal vapi — NEW: was missing entirely
-  22: 'bunglow (1)',                 // bunglow (1) — private bungalow Karwar
-  23: 'bunglow (2)',                 // bunglow (2) — private bungalow Satpala
-  24: 'bunglow (3)',                 // bunglow (3) — private bungalow Nandan
-  25: 'GAJANAN ASHARAM',            // GAJANAN ASHARAM (was: GAJANAN ASHARAM — matches)
-  26: '3',            // BHUMI INFRATECH (was: BHUMI INFRATECH — matches)
+  1: 'st. louis convent',
+  2: 'MAKERS TOWER JUHU',
+  3: 'SHRI GANESH VIDYA MANDIR',
+  4: 'Mariamma temple',
+  5: 'shelter don bosco',
+  6: 'enet house',
+  7: 'Om palace',
+  8: '2',
+  9: 'BHAVBANDHAN.jpg',
+  10: '6',
+  11: 'ANTHONY FIBER',
+  12: 'HAWARE GREEN PARK',
+  13: 'HAWARE VRINDAVAN',
+  14: 'HAWARE SILICON TOWER',
+  15: 'John XXIII High School, Virar',
+  16: 'LIS INDIA CONSTRUCTION',
+  17: 'Five star',
+  18: 'Varad nayak',
+  19: 'JAL JEEVAN TALASARI',
+  20: 'Magnum construction',
+  21: 'Panchal vapi',
+  22: 'bunglow (1)',
+  23: 'bunglow (2)',
+  24: 'bunglow (3)',
+  25: 'GAJANAN ASHARAM',
+  26: '3',
 }
 
 const IMG = Object.fromEntries(
@@ -201,7 +195,7 @@ export default function Projects() {
                     {IMG[p.id]
                       ? <img src={IMG[p.id]} alt={p.name}
                         style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                      : <FallbackImg name={p.name} type={p.type} color={p.color} />
+                      : <FallbackImg type={p.type} />
                     }
                     {p.ongoing && <span className="project-card__badge">Ongoing</span>}
                     <div className="project-card__image-overlay" />
@@ -235,40 +229,33 @@ export default function Projects() {
   )
 }
 
-function FallbackImg({ name, type, color }) {
-  const gid = `g-${(name || type).replace(/[^a-z0-9]/gi, '-')}`
-  const gid2 = `g2-${(name || type).replace(/[^a-z0-9]/gi, '-')}`
+function FallbackImg({ type }) {
   return (
-    <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg"
-      width="100%" height="100%" style={{ display: 'block' }}>
-      <defs>
-        <linearGradient id={gid} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="1" />
-          <stop offset="100%" stopColor={color} stopOpacity="0.65" />
-        </linearGradient>
-        <linearGradient id={gid2} x1="0" y1="1" x2="0" y2="0">
-          <stop offset="0%" stopColor="#8a9ab5" stopOpacity=".20" />
-          <stop offset="100%" stopColor="#8a9ab5" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <rect width="400" height="260" fill={`url(#${gid})`} />
-      <rect width="400" height="260" fill={`url(#${gid2})`} />
-      {[80, 160, 240, 320].map(x => <line key={x} x1={x} y1="0" x2={x} y2="260" stroke="rgba(255,255,255,0.07)" strokeWidth="1" />)}
-      {[52, 104, 156, 208].map(y => <line key={y} x1="0" y1={y} x2="400" y2={y} stroke="rgba(255,255,255,0.07)" strokeWidth="1" />)}
-      <rect x="42" y="68" width="84" height="154" fill="rgba(255,255,255,0.09)" rx="2" />
-      <rect x="146" y="96" width="104" height="126" fill="rgba(255,255,255,0.08)" rx="2" />
-      <rect x="270" y="118" width="66" height="104" fill="rgba(255,255,255,0.07)" rx="2" />
-      {[0, 1, 2, 3].map(r => [0, 1, 2].map(c => (
-        <rect key={`l${r}${c}`} x={55 + c * 23} y={80 + r * 30} width={14} height={18} fill="rgba(255,255,255,0.20)" rx="1" />
-      )))}
-      {[0, 1, 2].map(r => [0, 1, 2, 3].map(c => (
-        <rect key={`m${r}${c}`} x={156 + c * 22} y={110 + r * 30} width={13} height={17} fill="rgba(255,255,255,0.17)" rx="1" />
-      )))}
-      <rect x="0" y="222" width="400" height="38" fill="rgba(0,0,0,0.28)" />
-      <text x="200" y="244" textAnchor="middle" fill="rgba(197,203,214,0.80)"
-        fontSize="9" fontFamily="Arial,sans-serif" fontWeight="700" letterSpacing="2.5">
-        {type.toUpperCase()}
-      </text>
-    </svg>
+    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+      <img
+        src={fallbackBg}
+        alt=""
+        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+      />
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        background: 'rgba(13, 21, 32, 0.32)',
+        display: 'flex',
+        alignItems: 'flex-end',
+        padding: '10px 14px',
+      }}>
+        <span style={{
+          fontSize: '9px',
+          fontWeight: 700,
+          letterSpacing: '0.22em',
+          textTransform: 'uppercase',
+          color: 'rgba(197, 203, 214, 0.85)',
+          fontFamily: 'Arial, sans-serif',
+        }}>
+          {type}
+        </span>
+      </div>
+    </div>
   )
 }

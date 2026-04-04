@@ -7,7 +7,6 @@ import approachImg from '../assets/building.jpeg'
 
 gsap.registerPlugin(ScrollTrigger)
 
-/* ── SVG value icons ── */
 const HandshakeIcon = () => (
   <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
     <path d="M13 8l4-3 4 3 5 2 3 5-2 4-5 3-5-1-5 1-5-3-2-4 3-5 5-2z" fill="rgba(255,255,255,.2)" stroke="rgba(255,255,255,.7)" strokeWidth="1.5" strokeLinejoin="round" />
@@ -54,12 +53,6 @@ const VALUES = [
   { Icon: StarIcon, title: 'Professionalism', desc: 'World-class quality and precision craftsmanship in every aspect of every build.', accent: '#868D97' },
 ]
 
-const VISION_ITEMS = [
-  'To operate as a multi-disciplinary company in the construction economies of India.',
-  'To focus on continuous and sustainable top and bottom line growth.',
-  'To create a desirable place of work — a natural home for creativity and enthusiasm, within a safe working environment.',
-]
-
 const PHILOSOPHY = [
   'An energetic enthusiasm for what we do',
   'A sensitivity to the needs of our customers',
@@ -76,9 +69,6 @@ const APPROACH_STEPS = [
   { num: '06', title: 'Handover & Support', desc: 'Lock-and-key handover with full documentation, as-built drawings, and post-completion support. We stay until you are fully operational.', tag: 'Completion' },
 ]
 
-/* ─────────────────────────────────────────────
-   MissionBento — unchanged from original
-───────────────────────────────────────────── */
 function MissionBento() {
   const [phase, setPhase] = useState('idle')
   const wallRef = useRef(null)
@@ -152,11 +142,7 @@ function MissionBento() {
         style={{ display: phase === 'revealed' ? 'none' : 'grid' }}
       >
         {BRICKS.map((b, i) => (
-          <div
-            key={i}
-            className={`brick brick--${b.size}`}
-            style={{ background: b.bg, color: b.color }}
-          >
+          <div key={i} className={`brick brick--${b.size}`} style={{ background: b.bg, color: b.color }}>
             {b.label}
           </div>
         ))}
@@ -185,15 +171,9 @@ function MissionBento() {
   )
 }
 
-/* ─────────────────────────────────────────────
-   ApproachCard — desktop card
-───────────────────────────────────────────── */
 function ApproachCard({ step, cardRef, isActive }) {
   return (
-    <div
-      className={`approach-card${isActive ? ' approach-card--active' : ''}`}
-      ref={cardRef}
-    >
+    <div className={`approach-card${isActive ? ' approach-card--active' : ''}`} ref={cardRef}>
       <div className="approach-card__inner">
         <div className="approach-card__num-wrap">
           <span className="approach-card__num">{step.num}</span>
@@ -206,11 +186,7 @@ function ApproachCard({ step, cardRef, isActive }) {
   )
 }
 
-/* ─────────────────────────────────────────────
-   ApproachStep — mobile roadmap step
-───────────────────────────────────────────── */
 function ApproachStep({ step, nodeRef, isActive, isDone }) {
-  const lit = isActive || isDone
   return (
     <div
       className={`approach-step-row${isActive ? ' approach-step-row--active' : ''}`}
@@ -220,46 +196,43 @@ function ApproachStep({ step, nodeRef, isActive, isDone }) {
         {isDone ? <CheckIcon /> : <span>{step.num}</span>}
       </div>
       <div className="approach-step-content">
-        <p className={`approach-step-micro${lit ? ' approach-step-micro--lit' : ''}`}>Step {step.num}</p>
-        <h3 className={`approach-step-title${lit ? ' approach-step-title--lit' : ''}`}>{step.title}</h3>
-        <p className={`approach-step-desc${lit ? ' approach-step-desc--lit' : ''}`}>{step.desc}</p>
-        <span className={`approach-step-tag${lit ? ' approach-step-tag--lit' : ''}`}>{step.tag}</span>
+        <p className={`approach-step-micro${isActive || isDone ? ' approach-step-micro--lit' : ''}`}>
+          Step {step.num}
+        </p>
+        <h3 className={`approach-step-title${isActive ? ' approach-step-title--lit approach-step-title--active' : ''}`}>
+          {step.title}
+        </h3>
+        <p className="approach-step-desc">{step.desc}</p>
+        <span className={`approach-step-tag${isActive || isDone ? ' approach-step-tag--lit' : ''}`}>
+          {step.tag}
+        </span>
       </div>
     </div>
   )
 }
 
-/* ─────────────────────────────────────────────
-   Main About component
-───────────────────────────────────────────── */
 export default function About() {
   const ref = useRef(null)
 
-  /* Desktop card refs + active state */
   const cardRefs = useRef([])
   const activeLabelRef = useRef(null)
   const activeTitleRef = useRef(null)
   const [activeStep, setActiveStep] = useState(0)
+  const [mobileActiveStep, setMobileActiveStep] = useState(0)
 
-  /* Mobile roadmap refs */
   const progressFillRef = useRef(null)
   const spineFillRef = useRef(null)
   const stepNodeRefs = useRef([])
 
-  /* ── Desktop: watch each card entering the viewport centre ── */
+  /* Desktop observer */
   useEffect(() => {
     const observers = []
-
     cardRefs.current.forEach((el, i) => {
       if (!el) return
-
       const obs = new IntersectionObserver(
         ([entry]) => {
           if (!entry.isIntersecting) return
-
           setActiveStep(i)
-
-          /* Fade the image label out → swap text → fade in */
           if (activeLabelRef.current && activeTitleRef.current) {
             activeLabelRef.current.style.opacity = '0'
             activeTitleRef.current.style.opacity = '0'
@@ -272,70 +245,48 @@ export default function About() {
             }, 160)
           }
         },
-        /*
-         * rootMargin: '-20% 0px -60% 0px'
-         * A card becomes "active" when its top edge crosses 20% from the top
-         * of the viewport (i.e. is well inside the screen) AND its bottom edge
-         * hasn't yet reached 40% from the bottom.
-         * This keeps exactly one card active at a time as the user scrolls.
-         */
         { rootMargin: '-20% 0px -60% 0px', threshold: 0 }
       )
-
       obs.observe(el)
       observers.push(obs)
     })
-
     return () => observers.forEach(o => o.disconnect())
   }, [])
 
-  /* ── Mobile: watch roadmap nodes ── */
+  /* Mobile observer — separate state, never conflicts with desktop */
   useEffect(() => {
     const observers = []
     const total = APPROACH_STEPS.length
-
     stepNodeRefs.current.forEach((el, i) => {
       if (!el) return
-
       const obs = new IntersectionObserver(
         ([entry]) => {
           if (!entry.isIntersecting) return
-
-          if (progressFillRef.current) {
-            progressFillRef.current.style.height = `${((i + 1) / total) * 100}%`
-          }
+          setMobileActiveStep(i)
           if (spineFillRef.current) {
             const pct = i === 0 ? 0 : (i / (total - 1)) * 100
             spineFillRef.current.style.height = `${pct}%`
           }
         },
-        { rootMargin: '-30% 0px -40% 0px', threshold: 0 }
+        { rootMargin: '-20% 0px -30% 0px', threshold: 0 }
       )
-
       obs.observe(el)
       observers.push(obs)
     })
-
     return () => observers.forEach(o => o.disconnect())
   }, [])
 
-  /* ── GSAP entrance animations ── */
+  /* GSAP entrance animations */
   useEffect(() => {
     const ctx = gsap.context(() => {
-
-      /* Hero title words clip-reveal */
       gsap.fromTo('.ah-word',
         { yPercent: 110, skewY: 4 },
         { yPercent: 0, skewY: 0, duration: 1.1, stagger: 0.09, ease: 'power4.out', delay: 0.3 }
       )
-
-      /* Hero subtitle fade up */
       gsap.fromTo('.about-hero__sub',
         { opacity: 0, y: 22 },
         { opacity: 1, y: 0, duration: 0.9, delay: 1.1, ease: 'power3.out' }
       )
-
-      /* Stat boxes scale in on scroll */
       gsap.fromTo('.stat-box',
         { opacity: 0, y: 60, scale: 0.9 },
         {
@@ -344,8 +295,6 @@ export default function About() {
           scrollTrigger: { trigger: '.about-company', start: 'top 80%' }
         }
       )
-
-      /* Counters */
       document.querySelectorAll('.counter').forEach(el => {
         const val = parseFloat(el.dataset.val)
         const suffix = el.dataset.suffix || ''
@@ -367,8 +316,6 @@ export default function About() {
             ),
         })
       })
-
-      /* Generic reveal elements */
       gsap.utils.toArray('.reveal').forEach(el => {
         gsap.fromTo(el,
           { opacity: 0, y: 40 },
@@ -379,8 +326,6 @@ export default function About() {
           }
         )
       })
-
-      /* Value cards pop in */
       gsap.fromTo('.value-card',
         { opacity: 0, scale: 0.82, y: 40 },
         {
@@ -389,16 +334,14 @@ export default function About() {
           scrollTrigger: { trigger: '.values-grid', start: 'top 83%' }
         }
       )
-
     }, ref)
-
     return () => ctx.revert()
   }, [])
 
   return (
     <div className="about" ref={ref}>
 
-      {/* ══ HERO ══ */}
+      {/* HERO */}
       <section className="about-hero">
         <div className="container about-hero__inner">
           <div className="eyebrow">
@@ -420,7 +363,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* ══ STATS ══ */}
+      {/* STATS */}
       <section className="about-company">
         <div className="container about-company__grid">
           <div className="about-company__left">
@@ -449,7 +392,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* ══ MISSION ══ */}
+      {/* MISSION */}
       <section className="about-mission">
         <div className="container">
           <div className="eyebrow about-mission__eyebrow">
@@ -459,7 +402,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* ══ PHILOSOPHY ══ */}
+      {/* PHILOSOPHY */}
       <section className="about-philosophy">
         <div className="container">
           <div className="philosophy-header">
@@ -482,7 +425,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* ══ VALUES ══ */}
+      {/* VALUES */}
       <section className="about-values">
         <div className="container">
           <div className="about-values__header">
@@ -504,43 +447,11 @@ export default function About() {
         </div>
       </section>
 
-      {/* ══ APPROACH ══ */}
-      {/*
-        STICKY SCROLL — how it works:
-        ─────────────────────────────
-        The outer <section> has NO overflow:hidden.
-        .approach-desktop is a flex row with NO overflow:hidden.
-
-        LEFT column (.approach-desktop__sticky):
-          - position: sticky; top: 76px
-          - height: calc(100vh - 76px)
-          - This makes it exactly one viewport tall, pinned just below the navbar.
-          - It does NOT scroll — the document scrolls PAST it.
-
-        RIGHT column (.approach-desktop__cards):
-          - Normal block flow inside the flex row.
-          - Its natural height (6 cards + padding) is taller than the viewport,
-            so the document scrolls while the left column stays pinned.
-          - padding-bottom: 50vh so the last card can reach the active zone.
-
-        IntersectionObserver on each card fires when the card enters the
-        central band of the viewport, updating activeStep and the image label.
-
-        COMMON PITFALLS that break this:
-          1. overflow:hidden on any ancestor → kills sticky entirely.
-          2. overflow:auto on any ancestor → creates a new scroll container;
-             sticky works but only within that container (often invisible).
-          3. Lenis / Locomotive Scroll wrapping the page → sticky doesn't work
-             on the document scroll; you'd need to observe the wrapper element.
-             Fix: pass the Lenis wrapper ref to ScrollTrigger's `scroller` option
-             AND set overflow on that wrapper (not body) to 'auto'.
-      */}
+      {/* APPROACH */}
       <section className="about-approach">
 
-        {/* ── DESKTOP: sticky image + heading left, scrolling cards right ── */}
+        {/* DESKTOP */}
         <div className="approach-desktop">
-
-          {/* Sticky left column */}
           <div className="approach-desktop__sticky">
             <div className="approach-desktop__eyebrow">
               <div className="eyebrow">
@@ -555,14 +466,8 @@ export default function About() {
                 identification through design, procurement, construction, and operation.
               </p>
             </div>
-
-            {/* Image fills remaining height of the sticky column */}
             <div className="approach-desktop__img-wrap">
-              <img
-                src={approachImg}
-                alt="ROSA Infra approach"
-                className="approach-desktop__img"
-              />
+              <img src={approachImg} alt="ROSA Infra approach" className="approach-desktop__img" />
               <div className="approach-desktop__img-overlay" />
               <div className="approach-desktop__img-label">
                 <span className="approach-desktop__img-num" ref={activeLabelRef}>01</span>
@@ -571,7 +476,6 @@ export default function About() {
             </div>
           </div>
 
-          {/* Scrolling right column */}
           <div className="approach-desktop__cards">
             {APPROACH_STEPS.map((step, i) => (
               <ApproachCard
@@ -584,7 +488,7 @@ export default function About() {
           </div>
         </div>
 
-        {/* ── MOBILE: vertical roadmap ── */}
+        {/* MOBILE */}
         <div className="approach-mobile">
           <div className="eyebrow">
             <span className="eyebrow__line" />
@@ -605,13 +509,10 @@ export default function About() {
                 key={step.num}
                 step={step}
                 nodeRef={el => { stepNodeRefs.current[i] = el }}
-                isActive={activeStep === i}
-                isDone={activeStep > i}
+                isActive={mobileActiveStep === i}
+                isDone={mobileActiveStep > i}
               />
             ))}
-          </div>
-          <div className="approach-progress-track" style={{ display: 'none' }}>
-            <div className="approach-progress-fill" ref={progressFillRef} />
           </div>
         </div>
 

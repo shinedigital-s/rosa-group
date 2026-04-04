@@ -250,3 +250,12 @@ main {
   overflow-x: clip;
   /* CHANGED: was overflow-x: hidden — same reason as body above */
 }
+
+/* Hide custom cursor on touch/mobile devices */
+@media (hover: none) and (pointer: coarse) {
+
+  #cursor,
+  #cursor-ring {
+    display: none !important;
+  }
+}

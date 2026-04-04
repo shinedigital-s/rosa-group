@@ -513,53 +513,29 @@
   transform: scaleX(1);
 }
 
-/* ══════════════════════════════════════════════════════════════
-   7. APPROACH — sticky scroll
-   KEY: No overflow:hidden on .about-approach or .approach-desktop
-   ══════════════════════════════════════════════════════════════ */
-
+/* ══ 7. APPROACH ══ */
 .about-approach {
   background: #F8FAFB;
-  /* CRITICAL: absolutely no overflow:hidden or overflow:auto here.
-     Either will destroy position:sticky on child elements. */
 }
 
-/* ─── DESKTOP layout ─── */
 .approach-desktop {
   display: flex;
   align-items: flex-start;
-  /* CRITICAL: No overflow:hidden — kills position:sticky on children.
-     The section must be as tall as the cards column so scrolling happens
-     through the document, not inside a clipped container. */
 }
 
-/* LEFT sticky column */
 .approach-desktop__sticky {
-  /* flex-basis 46%, does NOT shrink */
   flex: 0 0 46%;
-
-  /* THE sticky rule */
   position: sticky;
   top: 76px;
-  /* height of navbar */
-
-  /* Exactly one viewport minus navbar tall — never taller, never shorter.
-     This ensures the element doesn't overflow its own height, which is
-     required for sticky to work correctly. */
   height: calc(100vh - 76px);
-
-  /* Internal layout */
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 32px;
   padding: 60px 52px 60px 7%;
   box-sizing: border-box;
-
   background: #fff;
   border-right: 1px solid var(--border, #D6DFE8);
-
-  /* CRITICAL: no overflow:hidden or overflow:auto — breaks sticky */
 }
 
 .approach-desktop__eyebrow .eyebrow {
@@ -578,16 +554,11 @@
   margin: 0;
 }
 
-/* Image — fills remaining vertical space in the sticky column */
 .approach-desktop__img-wrap {
   position: relative;
   flex: 1;
   min-height: 0;
-  /* allows flex child to shrink */
   border-radius: 10px;
-  /* CRITICAL: overflow:hidden here is fine — it's a leaf node,
-     not a scroll ancestor. Sticky is already established on the
-     parent; clipping the image inside it is safe. */
   overflow: hidden;
   background: var(--navy, #1E2D4E);
   box-shadow: 0 12px 40px rgba(30, 45, 78, 0.16);
@@ -606,10 +577,7 @@
 .approach-desktop__img-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top,
-      rgba(12, 23, 42, 0.80) 0%,
-      rgba(12, 23, 42, 0.28) 55%,
-      transparent 100%);
+  background: linear-gradient(to top, rgba(12, 23, 42, 0.80) 0%, rgba(12, 23, 42, 0.28) 55%, transparent 100%);
   pointer-events: none;
   z-index: 1;
 }
@@ -642,25 +610,15 @@
   transition: opacity 0.2s ease;
 }
 
-/* RIGHT scrollable cards column
-   This is the element that actually scrolls — the document scrolls past it,
-   and the sticky left column stays pinned while this column moves. */
 .approach-desktop__cards {
   flex: 1;
-  /* Top padding: visually centres the first card against the sticky panel.
-     Bottom padding: 50vh so the last card has room to become "active"
-     before the sticky section ends. Without this, the last card can
-     never reach the centre of the viewport. */
   padding: 80px 7% 50vh 7%;
   display: flex;
   flex-direction: column;
   gap: 24px;
   box-sizing: border-box;
-  /* CRITICAL: no overflow:hidden or overflow:auto — the document scroll
-     (not a nested scroll) is what drives the sticky behaviour. */
 }
 
-/* Step card */
 .approach-card {
   border: 1px solid var(--border, #D6DFE8);
   border-radius: 10px;
@@ -747,7 +705,6 @@
   color: var(--text-mid, #2B3447);
 }
 
-/* Left accent bar — animates in on active card */
 .approach-card::before {
   content: '';
   position: absolute;
@@ -766,7 +723,7 @@
   transform: scaleY(1);
 }
 
-/* ─── MOBILE layout ─── */
+/* ══ MOBILE APPROACH ROADMAP ══ */
 .approach-mobile {
   display: none;
   padding: 72px 6% 80px;
@@ -785,7 +742,6 @@
   margin-bottom: 52px;
 }
 
-/* Mobile roadmap */
 .approach-roadmap {
   position: relative;
   padding-left: 16px;
@@ -813,13 +769,14 @@
   transition: height 0.55s cubic-bezier(.4, 0, .2, 1);
 }
 
+/* ── Step row — always fully visible ── */
 .approach-step-row {
   display: flex;
   align-items: flex-start;
   gap: 28px;
-  padding-bottom: 56px;
-  opacity: 0.25;
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  padding-bottom: 48px;
+  opacity: 1;
+  transition: transform 0.5s ease;
 }
 
 .approach-step-row:last-child {
@@ -827,10 +784,10 @@
 }
 
 .approach-step-row--active {
-  opacity: 1;
   transform: translateX(4px);
 }
 
+/* Node */
 .approach-node {
   width: 40px;
   height: 40px;
@@ -845,7 +802,7 @@
   position: relative;
   font-size: 11px;
   font-weight: 700;
-  color: rgba(30, 45, 78, .30);
+  color: rgba(30, 45, 78, .55);
   letter-spacing: 0.05em;
   transition: background 0.4s, border-color 0.4s, box-shadow 0.4s, color 0.35s;
 }
@@ -868,12 +825,13 @@
   padding-top: 8px;
 }
 
+/* Step micro label */
 .approach-step-micro {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.20em;
   text-transform: uppercase;
-  color: rgba(30, 45, 78, .22);
+  color: rgba(30, 45, 78, .50);
   margin: 0 0 8px;
   transition: color 0.4s;
 }
@@ -882,41 +840,39 @@
   color: #C8A84B;
 }
 
+/* Step title — always dark and readable */
 .approach-step-title {
   font-family: var(--font-display);
   font-size: clamp(1.4rem, 5vw, 1.8rem);
   font-weight: 300;
-  color: rgba(30, 45, 78, .18);
+  color: var(--navy, #1E2D4E);
   line-height: 1.15;
   letter-spacing: -0.01em;
   margin: 0 0 10px;
-  transition: color 0.4s;
+  transition: color 0.4s, font-weight 0.4s;
 }
 
-.approach-step-title--lit {
-  color: var(--navy, #1E2D4E);
+.approach-step-title--active {
+  font-weight: 500;
 }
 
+/* Step description — always readable */
 .approach-step-desc {
   font-size: 15px;
   line-height: 1.9;
-  color: rgba(30, 45, 78, .16);
-  margin: 0 0 16px;
-  transition: color 0.45s;
-}
-
-.approach-step-desc--lit {
   color: var(--text-mid, #2B3447);
+  margin: 0 0 16px;
 }
 
+/* Step tag */
 .approach-step-tag {
   display: inline-block;
   font-size: 9.5px;
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(30, 45, 78, .20);
-  border: 1px solid rgba(30, 45, 78, .10);
+  color: rgba(30, 45, 78, .55);
+  border: 1px solid rgba(30, 45, 78, .20);
   padding: 5px 13px;
   border-radius: 2px;
   transition: background 0.35s, color 0.35s, border-color 0.35s;
@@ -951,8 +907,6 @@
 }
 
 @media (max-width: 900px) {
-
-  /* Switch to mobile roadmap, hide desktop layout */
   .approach-desktop {
     display: none;
   }
