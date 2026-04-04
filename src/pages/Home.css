@@ -88,6 +88,11 @@
   color: rgba(200, 168, 75, .85);
 }
 
+/* ── Hero eyebrow override — white text on dark banner ── */
+.hero-content .eyebrow__text {
+  color: #ffffff;
+}
+
 .hero-headline {
   font-family: var(--font-display);
   font-size: clamp(4rem, 6vw, 7.5rem);

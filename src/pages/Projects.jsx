@@ -37,7 +37,7 @@ const IMG_FILES = {
   5: 'shelter don bosco',          // shelter don bosco
   6: 'enet house',                 // enet house
   7: 'Om palace',                  // Om palace
-  8: 'st annes',                   // st annes
+  8: '2',                   // st annes
   9: 'BHAVBANDHAN.jpg',            // has explicit .jpg in filename
   10: 'GAVDEVIK RUPA',              // GAVDEVIK RUPA (was: GAVDEVIKRUPA — space missing)
   11: 'ANTHONY FIBER',              // ANTHONY FIBER (was: ANTHONY FIBER — matches)
@@ -55,7 +55,7 @@ const IMG_FILES = {
   23: 'bunglow (2)',                 // bunglow (2) — private bungalow Satpala
   24: 'bunglow (3)',                 // bunglow (3) — private bungalow Nandan
   25: 'GAJANAN ASHARAM',            // GAJANAN ASHARAM (was: GAJANAN ASHARAM — matches)
-  26: 'BHUMI INFRATECH',            // BHUMI INFRATECH (was: BHUMI INFRATECH — matches)
+  26: '3',            // BHUMI INFRATECH (was: BHUMI INFRATECH — matches)
 }
 
 const IMG = Object.fromEntries(
