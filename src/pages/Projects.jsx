@@ -31,7 +31,7 @@ const IMG_FILES = {
   5: 'shelter don bosco',
   6: 'enet house',
   7: 'Om palace',
-  8: '2',
+  8: '2222',
   9: 'BHAVBANDHAN.jpg',
   10: '6',
   11: 'ANTHONY FIBER',
