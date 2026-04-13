@@ -32,10 +32,10 @@
 
 .nav__logo-img {
   height: 68px;
-  /* was 48px — bumped up for visibility */
   width: auto;
   display: block;
-  /* Slight drop shadow so logo reads cleanly on light hero bg */
+  background-color: #ffffff;
+  /* matches nav--scrolled background */
   filter: drop-shadow(0 1px 3px rgba(30, 45, 78, .10));
   transition: transform .25s var(--ease);
 }

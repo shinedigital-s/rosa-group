@@ -11,7 +11,7 @@ export default function Footer() {
             <img
               src={logoImg}
               alt="The ROSA Group"
-              style={{ height: '56px', width: 'auto' }}
+              style={{ height: '100px', width: 'auto' }}
             />
           </div>
           <p className="footer__desc">
