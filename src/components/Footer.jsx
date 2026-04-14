@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import logoImg from '../assets/projects/logo.jpg'
+import logoImg from '../assets/projects/logo.jpeg'
 import './Footer.css'
 
 export default function Footer() {
@@ -11,7 +11,7 @@ export default function Footer() {
             <img
               src={logoImg}
               alt="The ROSA Group"
-              style={{ height: '100px', width: 'auto' }}
+              style={{ height: '150px', width: '150px' }}
             />
           </div>
           <p className="footer__desc">
