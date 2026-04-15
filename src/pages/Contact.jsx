@@ -109,7 +109,7 @@ export default function Contact() {
             <span>Contact Us</span>
           </div>
           <h1 className="contact-hero__title">
-            {["Let's", "build", "something"].map((w, i) => (
+            {["Let's", "build", "the future"].map((w, i) => (
               <span key={i} className="word">{w} </span>
             ))}
             <br />
