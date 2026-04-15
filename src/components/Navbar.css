@@ -34,7 +34,7 @@
   height: 68px;
   width: auto;
   display: block;
-  background-color: #ffffff;
+  background: #ffffff;
   /* matches nav--scrolled background */
   filter: drop-shadow(0 1px 3px rgba(30, 45, 78, .10));
   transition: transform .25s var(--ease);

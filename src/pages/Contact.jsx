@@ -13,8 +13,7 @@ gsap.registerPlugin(ScrollTrigger)
    3. Deploy as Web App → Anyone.
    4. Replace SHEET_URL below with your deployed web-app URL.
 ───────────────────────────────────────────────────────────── */
-const SHEET_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec'
-
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbz_90qZeu6Kc8JrADph0EgrzWD9fVtMxIq8vIplz-ziCJltOVpm7E9G9_pa_esJXnAdHg/exec'
 const CONTACT_INFO = [
   {
     icon: '📍',
@@ -63,13 +62,15 @@ export default function Contact() {
       gsap.fromTo('.contact-hero__sub', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.9, delay: 0.85, ease: 'power3.out' })
       gsap.fromTo('.contact-info-card',
         { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out',
+        {
+          opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out',
           scrollTrigger: { trigger: '.contact-info-card', start: 'top 88%' }
         }
       )
       gsap.fromTo('.contact-form',
         { opacity: 0, x: 40 },
-        { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out',
+        {
+          opacity: 1, x: 0, duration: 0.9, ease: 'power3.out',
           scrollTrigger: { trigger: '.contact-form', start: 'top 85%' }
         }
       )
@@ -274,15 +275,15 @@ function MapIllustration() {
     <svg viewBox="0 0 480 260" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
       <rect width="480" height="260" fill="#f0f0f0" />
       {/* Grid */}
-      {[0,60,120,180,240,300,360,420].map(x => <line key={x} x1={x} y1="0" x2={x} y2="260" stroke="rgba(0,0,0,0.08)" strokeWidth="1" />)}
-      {[0,65,130,195].map(y => <line key={y} x1="0" y1={y} x2="480" y2={y} stroke="rgba(0,0,0,0.08)" strokeWidth="1" />)}
+      {[0, 60, 120, 180, 240, 300, 360, 420].map(x => <line key={x} x1={x} y1="0" x2={x} y2="260" stroke="rgba(0,0,0,0.08)" strokeWidth="1" />)}
+      {[0, 65, 130, 195].map(y => <line key={y} x1="0" y1={y} x2="480" y2={y} stroke="rgba(0,0,0,0.08)" strokeWidth="1" />)}
       {/* Roads */}
       <rect x="0" y="115" width="480" height="14" fill="rgba(255,255,255,0.9)" />
       <rect x="200" y="0" width="14" height="260" fill="rgba(255,255,255,0.9)" />
       <rect x="330" y="0" width="10" height="260" fill="rgba(255,255,255,0.7)" />
       <rect x="0" y="180" width="480" height="10" fill="rgba(255,255,255,0.7)" />
       {/* Blocks */}
-      {[[20,20,80,80],[120,20,60,80],[300,20,100,80],[400,20,60,80],[20,150,80,40],[350,150,80,40],[120,200,60,40],[300,200,40,40]].map(([x,y,w,h],i)=>(
+      {[[20, 20, 80, 80], [120, 20, 60, 80], [300, 20, 100, 80], [400, 20, 60, 80], [20, 150, 80, 40], [350, 150, 80, 40], [120, 200, 60, 40], [300, 200, 40, 40]].map(([x, y, w, h], i) => (
         <rect key={i} x={x} y={y} width={w} height={h} fill="rgba(0,0,0,0.12)" rx="2" />
       ))}
       {/* Water */}
