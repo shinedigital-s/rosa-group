@@ -57,7 +57,12 @@ export default function Footer() {
       </div>
 
       <div className="footer__bottom container">
-        <p>© {new Date().getFullYear()} Shine Digital. All rights reserved.</p>
+        <p>
+          © {new Date().getFullYear()}{" "}
+          <a href="https://shinedigital.in/" target="_blank" rel="noopener noreferrer">
+            Shine Digital
+          </a>. All rights reserved.
+        </p>
         <p>M/s. ROSA Infra – Civil Contractors</p>
       </div>
     </footer>
